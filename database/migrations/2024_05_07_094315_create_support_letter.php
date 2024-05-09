@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('cso_id')->references('id')->on('csos')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
         });
+        //thjmsfjckem,d
     }
 
 
