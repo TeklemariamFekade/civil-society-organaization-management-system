@@ -157,9 +157,7 @@
                     var duration = {{ $duration }}; // Duration in seconds
                     var width = {{ $width }}; // Full width in percentage
                     var intervalDuration = {{ $intervalDuration }}; // Interval duration in milliseconds
-
                     var remainingTime = duration;
-
                     var interval = setInterval(function() {
                         remainingTime--;
 

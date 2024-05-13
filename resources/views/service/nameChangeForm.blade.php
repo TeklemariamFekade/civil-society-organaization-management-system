@@ -45,17 +45,6 @@
                                     class="form-control font-italic" placeholder="የአመልካች ድርጅት አዲስ ስም" required>
                             </div>
                         </div>
-                        <div class="form-group m-1 row">
-                            <label for="category" class="col-sm-4 col-form-label">Category:</label>
-                            <div class="col-sm-8">
-                                <select name="category" id="category" class="form-select border p-2 font-italic"
-                                    style="border-color: transparent;" required>
-                                    <option value="" disabled selected>Open this select menu</option>
-                                    <option value="Foreign">Foreign</option>
-                                    <option value="Local">Local</option>
-                                </select>
-                            </div>
-                        </div>
                         <legend class="bg-secondary text-center text-light font-italic">Organization File</legend>
                         <div class="form-group m-3">
                             <label for="cso_file">File:</label>

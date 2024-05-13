@@ -20,7 +20,7 @@
                                 <label for="english_name" class="col-sm-4 col-form-label">Name of the applicant
                                     organization:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="english_name" name="app_english_name"
+                                    <input type="text" id="app_english_name" name="app_english_name"
                                         class="form-control font-italic text-dark"
                                         placeholder="Name of the applicant organization" required>
                                 </div>
@@ -28,7 +28,7 @@
                             <div class="form-group m-1 row">
                                 <label for="amharic_name" class="col-sm-4 col-form-label">የአመልካች ድርጅት ስም:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="amharic_name" name="app_amharic_name"
+                                    <input type="text" id="app_amharic_name" name="app_amharic_name"
                                         class="form-control font-italic" placeholder="የአመልካች ድርጅት  ስም" required>
                                 </div>
                             </div>
@@ -90,11 +90,27 @@
                                         placeholder="Enter district" required>
                                 </div>
                             </div>
+
                             <div class="form-group m-1 row">
                                 <label for="phone_no" class="col-sm-4 col-form-label mt-2">Phone Number:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="phone_no" name="phone_no" class="form-control font-italic"
                                         placeholder="Enter phone number" required>
+                                </div>
+                            </div>
+                            <div class="form-group m-1 row">
+                                <label for="po_box" class="col-sm-4 col-form-label mt-2">P.O.BOX:</label>
+                                <div class="col-sm-8">
+
+                                    <input type="text" id="po_box" name="po_box" class="form-control font-italic"
+                                        placeholder="Enter P.O.BOX" required>
+                                </div>
+                            </div>
+                            <div class="form-group m-1 row">
+                                <label for="email" class="col-sm-4 col-form-label mt-2">Email:</label>
+                                <div class="col-sm-8">
+                                    <input type="email" id="email" name="email" class="form-control font-italic"
+                                        placeholder="Enter your email" required>
                                 </div>
                             </div>
                         </fieldset>

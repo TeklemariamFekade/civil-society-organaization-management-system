@@ -72,6 +72,10 @@ class ServiceController extends Controller
         $addressChange->phone_no = $request->input('phone_no');
         $addressChange->po_box = $request->input('po_box');
         $addressChange->email = $request->input('email');
+        $cso_file = $request->file('cso_file');
+        $filename = time() . '.' . $cso_file->getClientOriginalExtension();
+        $cso_file->move('storage', $filename);
+        $addressChange->cso_file = $filename;
 
         if ($cso) {
             $addressChange->cso_id = $cso->id;
@@ -80,13 +84,7 @@ class ServiceController extends Controller
         if ($service) {
             $addressChange->service_id = $service->id;
         }
-
-        $cso_file = $request->file('cso_file');
-        $filename = time() . '.' . $cso_file->getClientOriginalExtension();
-        $cso_file->move('storage', $filename);
-        $addressChange->cso_file = $filename;
         $addressChange->send_date = Carbon::now();
-
         $addressChange->save();
 
         return redirect()->back()->with('success', 'Address Change request submitted successfully.');
@@ -110,18 +108,18 @@ class ServiceController extends Controller
     public function fillNameChangeForm(Request $request)
     {
         $request->validate([
+            'old_english_name' => 'required|string',
+            'old_amharic_name' => 'required|string',
             'new_english_name' => 'required|string',
             'new_amharic_name' => 'required|string',
-            'category' => 'required|string',
             'cso_file' => 'required|file',
         ]);
 
         $nameChange = new NameChange();
         $notification = new Notification();
         $cso = CSO::where([
-            ['english_name', '=', $request->input('new_english_name')],
-            ['amharic_name', '=', $request->input('new_amharic_name')],
-            ['category', '=', $request->input('category')]
+            ['english_name', $request->input('old_english_name')],
+            ['amharic_name', $request->input('old_amharic_name')]
         ])->first();
         $nameChange->new_english_name = $request->input('new_english_name');
         $nameChange->new_amharic_name = $request->input('new_amharic_name');
@@ -138,7 +136,6 @@ class ServiceController extends Controller
         if ($service) {
             $nameChange->service_id = $service->id;
         }
-
         $nameChange->save();
         return redirect()->back()->with('success', 'Name Change request submitted successfully.');
     }
@@ -161,9 +158,8 @@ class ServiceController extends Controller
     public function fill_support_letter_logo_form(Request $request)
     {
         $request->validate([
-            'new_english_name' => 'required|string',
+            'app_english_name' => 'required|string',
             'app_amharic_name' => 'required|string',
-            'category' => 'required|string',
             'cso_file' => 'required|file',
         ]);
         $logoLetter = new Support_Letter();
@@ -171,7 +167,6 @@ class ServiceController extends Controller
         $cso = CSO::where([
             ['english_name', '=', $request->input('app_english_name')],
             ['amharic_name', '=', $request->input('app_amharic_name')],
-            ['category', '=', $request->input('category')]
         ])->first();
         $service = Service::where('service_name', 'support letter request')->first();
         $cso_file = $request->file('cso_file');
@@ -209,7 +204,6 @@ class ServiceController extends Controller
         $request->validate([
             'app_english_name' => 'required|string',
             'app_amharic_name' => 'required|string',
-            'category' => 'required|string',
             'cso_file' => 'required|file',
         ]);
         $meetingLetter = new Support_Letter();
@@ -217,7 +211,6 @@ class ServiceController extends Controller
         $cso = CSO::where([
             ['english_name', '=', $request->input('app_english_name')],
             ['amharic_name', '=', $request->input('app_amharic_name')],
-            ['category', '=', $request->input('category')]
         ])->first();
         $service = Service::where('service_name', 'support letter request')->first();
         $cso_file = $request->file('cso_file');
@@ -229,7 +222,6 @@ class ServiceController extends Controller
         if ($cso) {
             $meetingLetter->cso_id = $cso->id;
         }
-
         if ($service) {
             $meetingLetter->service_id = $service->id;
         }

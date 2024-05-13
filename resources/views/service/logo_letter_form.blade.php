@@ -21,7 +21,7 @@
                                 <label for="english_name" class="col-sm-4 col-form-label">Name of the applicant
                                     organization:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="english_name" name="app_english_name"
+                                    <input type="text" id="app_english_name" name="app_english_name"
                                         class="form-control font-italic text-dark"
                                         placeholder="Name of the applicant organization" required>
                                 </div>
@@ -29,21 +29,11 @@
                             <div class="form-group m-1 row">
                                 <label for="amharic_name" class="col-sm-4 col-form-label">የአመልካች ድርጅት ስም:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="amharic_name" name="app_amharic_name"
+                                    <input type="text" id="app_amharic_name" name="app_amharic_name"
                                         class="form-control font-italic" placeholder="የአመልካች ድርጅት  ስም" required>
                                 </div>
                             </div>
-                            <div class="form-group m-1 row">
-                                <label for="category" class="col-sm-4 col-form-label">Category:</label>
-                                <div class="col-sm-8">
-                                    <select name="category" id="category" class="form-select border p-2 font-italic"
-                                        style="border-color: transparent;" required>
-                                        <option value="" disabled selected>Open this select menu</option>
-                                        <option value="Foreign">Foreign</option>
-                                        <option value="Local">Local</option>
-                                    </select>
-                                </div>
-                            </div>
+
                         </fieldset>
                         <fieldset class="border">
                             <legend class="bg-secondary text-center text-light font-italic">Organization Letter File
