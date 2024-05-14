@@ -45,7 +45,7 @@
                             </div>
                         </fieldset>
                         <div class="form-group m-2 text-center d-flex justify-content-center">
-                            <a href="{{ route('service.support_letter_meeting_rule') }}" class="btn btn-dark mx-2">
+                            <a href="{{ route('service.support_letter_logo_rule') }}" class="btn btn-dark mx-2">
                                 <i class="fas fa-arrow-left"></i>
                                 Back
                             </a>

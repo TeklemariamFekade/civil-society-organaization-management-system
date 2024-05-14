@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ Route('service.index') }}"
-                        class="nav-link {{ Request::is('service/index') ? 'active' : '' }}">
+                        class="nav-link {{ Request::is('service/index', 'service/nameChange', 'service/nameChangeForm', 'service/addressChange', 'service/addressChangeForm', 'service/logo_letter', 'service/logo_letter_form', 'service/meeting_letter', 'service/meeting_letter_form') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tasks"></i>
                         <p>Service Request</p>
 

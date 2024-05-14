@@ -181,7 +181,7 @@ class ServiceController extends Controller
         $notification = new Notification();
         $cso = CSO::where([
             ['english_name', '=', $request->input('app_english_name')],
-            ['amharic_name', '=', $request->input('app_amharic_name')],
+            ['amharic_name', '=', $request->input('app_amharic_name')]
         ])->first();
         $service = Service::where('service_name', 'support letter request')->first();
         $cso_file = $request->file('cso_file');
@@ -197,6 +197,8 @@ class ServiceController extends Controller
         if ($service) {
             $logoLetter->service_id = $service->id;
         }
+
+        $logoLetter->save();
         return redirect()->back()->with('success', 'support letter request submitted successfully.');
     }
 
@@ -208,6 +210,7 @@ class ServiceController extends Controller
 
         return view('service.letter.letterRequests', compact('csos'));
     }
+
 
 
 
@@ -234,7 +237,7 @@ class ServiceController extends Controller
 
         $cso = CSO::where([
             ['english_name', '=', $request->input('app_english_name')],
-            ['amharic_name', '=', $request->input('app_amharic_name')],
+            ['amharic_name', '=', $request->input('app_amharic_name')]
         ])->first();
 
         if (!$cso) {
@@ -253,7 +256,6 @@ class ServiceController extends Controller
         $filename = time() . '.' . $cso_file->getClientOriginalExtension();
         $cso_file->move('storage', $filename);
         $meetingLetter->cso_file = $filename;
-
         $meetingLetter->save();
 
         return redirect()->back()->with('success', 'Support letter request submitted successfully.');

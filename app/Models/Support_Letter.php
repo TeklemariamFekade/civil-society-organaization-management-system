@@ -9,6 +9,7 @@ class Support_Letter extends Model
 {
     use HasFactory;
 
+    protected $table = 'support_letters';
     protected $fillable = [
         'send_date',
         'cso_file',
