@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Registration;
 use App\Models\Task;
+use App\Models\CSO;
 
 class RegistrationController extends Controller
 {
@@ -23,11 +24,12 @@ class RegistrationController extends Controller
         return view('registration.registrationform');
     }
 
-    public function viewRegistration()
+    public function viewRegistrationRequest()
     {
-        $latestUpdatedRegistration = Registration::latest()->first();
-        $registrations = Registration::all();
-        return view("registration.index", compact("registrations"));
+
+        $csos = CSO::has('registration')->get();
+
+        return view('registration.index', compact('csos'));
     }
 
     public function rejectRequest()

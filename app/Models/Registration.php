@@ -16,7 +16,7 @@ class Registration extends Model
 
     public function cso()
     {
-        return $this->belongsTo(CSO::class);
+        return $this->belongsTo(CSO::class, 'cso_id', 'id');
     }
 
 

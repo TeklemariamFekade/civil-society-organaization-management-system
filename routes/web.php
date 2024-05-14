@@ -66,6 +66,7 @@ Route::get('service/address_change/addressChangeRequests', [ServiceController::c
 Route::get('service/logo_letter', [ServiceController::class, 'support_letter_logo_rule'])->name('service.support_letter_logo_rule');
 Route::get('service/logo_letter_form', [ServiceController::class, 'support_letter_logo_form'])->name('service.support_letter_logo_form');
 Route::post('service/logo_letter_form', [ServiceController::class, 'fill_support_letter_logo_form'])->name('service.fill_support_letter_logo_form');
+
 Route::get('service/letter/letterRequests', [ServiceController::class, 'viewLetterRequest'])->name('service.letter.viewLetterRequest');
 
 
@@ -103,8 +104,10 @@ Route::group(['middleware' => ['auth', 'role:supervisor'], 'prefix' => 'supervis
 });
 Route::get('Task/index', [TaskController::class, 'viewTask'])->name('Task.index');
 Route::post('Task/index', [TaskController::class, 'updateStatus'])->name('Task.updateStatus');
+
+
 Route::post('registration/index/{id}/', [TaskController::class, 'assign'])->name('registration.assign');
-Route::get('registration/index', [RegistrationController::class, 'viewRegistration'])->name('registration.index');
+Route::get('registration/index', [RegistrationController::class, 'viewRegistrationRequest'])->name('registration.index.viewRegistrationRequest');
 
 // Expert routes
 Route::group(['middleware' => ['auth', 'role:expert']], function () {

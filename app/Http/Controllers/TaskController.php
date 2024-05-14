@@ -18,6 +18,9 @@ class TaskController extends Controller
         return view('admin.user', compact('users', 'latestUpdatedUser'));
     }
 
+
+
+    //To View tasks in expert or data encoder side
     public function viewTask()
     {
         $loggedInUserId = Auth::id();
@@ -28,7 +31,10 @@ class TaskController extends Controller
         return view("Task.index", compact("tasks"));
     }
 
-    public function assign(Request $request, $id)
+
+
+    //   To assign Registration Tasks for expert
+    public function assignRegistrationTask(Request $request, $id)
     {
         $request->validate([
             'task_name' => 'required',
@@ -40,7 +46,6 @@ class TaskController extends Controller
         $task->task_name = $request->input('task_name');
         $task->due_date = $request->input('due_date');
         $assignedUser = User::where('name', $request->input('user_name'))->first();
-
         $registration = Registration::findOrFail($id);
 
         if ($assignedUser && $registration) {
@@ -54,6 +59,28 @@ class TaskController extends Controller
         $task->save();
         return redirect()->route('registration.index')->with('success', 'Task assigned successfully!');
     }
+
+
+    // To Assign  name change request Tasks for data encoder
+    public function assignNameChangeTask(Request $request, $id)
+    {
+    }
+
+    public function assignSupportLetterTask(Request $request, $id)
+    {
+    }
+    // To assign address change Requests  for data encoder
+
+    public function assignAddressChangeTask(Request $request, $id)
+    {
+    }
+
+
+
+
+
+
+
 
     public function UpdateStatus($id)
     {

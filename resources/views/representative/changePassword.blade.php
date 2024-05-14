@@ -110,7 +110,6 @@
     </script>
 @endsection
 
-
 @push('scripts')
     @if (session('password_updated'))
         <script>

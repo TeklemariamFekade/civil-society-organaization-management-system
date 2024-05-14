@@ -28,7 +28,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ Route('registration.index') }}"
+                    <a href="{{ Route('registration.index.viewRegistrationRequest') }}"
                         class="nav-link {{ Request::is('registration/index') ? 'active' : '' }}">
                         <i class="fas fa-user-plus nav-icon"></i>
                         <p>Registration Requests</p>

@@ -55,7 +55,7 @@ class CSO extends Model
 
     public function registration()
     {
-        return $this->hasOne(Registration::class);
+        return $this->hasMany(Registration::class, 'cso_id', 'id');
     }
 
     public function supportLetters()
