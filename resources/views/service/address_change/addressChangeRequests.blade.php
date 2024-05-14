@@ -10,6 +10,7 @@
                     <th scope="col">የተቋሙ ስም</th>
                     <th scope="col">Request Date</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,15 @@
                         <td>
                             @foreach ($cso->addresschange as $addresschange)
                                 {{ $addresschange->send_date }}
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach ($cso->addresschange as $addresschange)
+                                @if ($addresschange->status)
+                                    Assigned
+                                @else
+                                    Not Assigned
+                                @endif
                             @endforeach
                         </td>
                         <td>

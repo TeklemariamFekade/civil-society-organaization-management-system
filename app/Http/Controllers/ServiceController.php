@@ -202,7 +202,6 @@ class ServiceController extends Controller
         return redirect()->back()->with('success', 'support letter request submitted successfully.');
     }
 
-
     public function viewLetterRequest()
     {
 

@@ -10,6 +10,7 @@
                     <th scope="col">የተቋሙ ስም</th>
                     <th scope="col">Request Date</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +29,15 @@
                                     {{ $nameChange->send_date }}
                                 @endforeach
                             @endif
+                        </td>
+                        <td>
+                            @foreach ($cso->nameChange as $nameChange)
+                                @if ($nameChange->status)
+                                    Assigned
+                                @else
+                                    Not Assigned
+                                @endif
+                            @endforeach
                         </td>
                         <td>
                             <button type="button" class="btn btn-success" data-toggle="modal"

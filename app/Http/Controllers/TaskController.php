@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\Task;
 use App\Models\Registration;
 use Illuminate\Support\Facades\Auth;
+use App\Models\NameChange;
+use App\Models\AddressChange;
+use App\Models\Support_Letter;
 
 class TaskController extends Controller
 {
@@ -55,7 +58,6 @@ class TaskController extends Controller
             // Handle the case when the user or registration is not found
             // You can throw an exception, return an error response, or handle it as per your application's requirements
         }
-
         $task->save();
         return redirect()->route('registration.index')->with('success', 'Task assigned successfully!');
     }
@@ -64,15 +66,78 @@ class TaskController extends Controller
     // To Assign  name change request Tasks for data encoder
     public function assignNameChangeTask(Request $request, $id)
     {
+        $request->validate([
+            'task_name' => 'required',
+            'due_date' => 'required',
+            'user_name' => 'required',
+        ]);
+
+        $task = new Task();
+        $task->task_name = $request->input('task_name');
+        $task->due_date = $request->input('due_date');
+        $assignedUser = User::where('name', $request->input('user_name'))->first();
+        $registration = Registration::findOrFail($id);
+
+        if ($assignedUser && $registration) {
+            $task->user_id = $assignedUser->id;
+            $task->registration_id = $registration->id;
+        } else {
+            // Handle the case when the user or registration is not found
+            // You can throw an exception, return an error response, or handle it as per your application's requirements
+        }
+        $task->save();
+        return redirect()->route('registration.index')->with('success', 'Task assigned successfully!');
     }
 
     public function assignSupportLetterTask(Request $request, $id)
     {
+        $request->validate([
+            'task_name' => 'required',
+            'due_date' => 'required',
+            'user_name' => 'required',
+        ]);
+
+        $task = new Task();
+        $task->task_name = $request->input('task_name');
+        $task->due_date = $request->input('due_date');
+        $assignedUser = User::where('name', $request->input('user_name'))->first();
+        $registration = Registration::findOrFail($id);
+
+        if ($assignedUser && $registration) {
+            $task->user_id = $assignedUser->id;
+            $task->registration_id = $registration->id;
+        } else {
+            // Handle the case when the user or registration is not found
+            // You can throw an exception, return an error response, or handle it as per your application's requirements
+        }
+        $task->save();
+        return redirect()->route('registration.index')->with('success', 'Task assigned successfully!');
     }
     // To assign address change Requests  for data encoder
 
     public function assignAddressChangeTask(Request $request, $id)
     {
+        $request->validate([
+            'task_name' => 'required',
+            'due_date' => 'required',
+            'user_name' => 'required',
+        ]);
+
+        $task = new Task();
+        $task->task_name = $request->input('task_name');
+        $task->due_date = $request->input('due_date');
+        $assignedUser = User::where('name', $request->input('user_name'))->first();
+        $registration = Registration::findOrFail($id);
+
+        if ($assignedUser && $registration) {
+            $task->user_id = $assignedUser->id;
+            $task->registration_id = $registration->id;
+        } else {
+            // Handle the case when the user or registration is not found
+            // You can throw an exception, return an error response, or handle it as per your application's requirements
+        }
+        $task->save();
+        return redirect()->route('registration.index')->with('success', 'Task assigned successfully!');
     }
 
 
