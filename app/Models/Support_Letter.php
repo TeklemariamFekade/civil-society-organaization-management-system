@@ -11,14 +11,15 @@ class Support_Letter extends Model
 
     protected $fillable = [
         'send_date',
+        'cso_file',
         'cso_id',
         'service_id',
-        'cso_file'
+
     ];
 
     public function cso()
     {
-        return $this->belongsTo(CSO::class);
+        return $this->belongsTo(CSO::class, 'cso_id', 'id');
     }
 
     public function service()

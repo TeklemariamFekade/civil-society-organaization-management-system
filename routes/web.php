@@ -54,17 +54,19 @@ Route::get('service/index', [ServiceController::class, 'viewService'])->name('se
 Route::get('service/nameChange', [ServiceController::class, 'nameChangeRule'])->name('service.nameChangeRule');
 Route::get('service/nameChangeForm', [ServiceController::class, 'viewNameChangeForm'])->name('service.viewNameChangeForm');
 Route::post('service/nameChangeForm', [ServiceController::class, 'fillNameChangeForm'])->name('service.fillNameChangeForm');
+Route::get('service/name_change/nameChangeRequests', [ServiceController::class, 'viewNameChangeRequest'])->name('service.name_change.viewNameChangeRequest');
+
 
 
 Route::get('service/addressChange', [ServiceController::class, 'addressChangeRule'])->name('service.addressChangeRule');
 Route::get('service/addressChangeForm', [ServiceController::class, 'addressChangeForm'])->name('service.addressChangeForm');
 Route::post('service/addressChangeForm', [ServiceController::class, 'fillAddressChangeForm'])->name('service.fillAddressChangeForm');
-
+Route::get('service/address_change/addressChangeRequests', [ServiceController::class, 'viewAddressChangeRequest'])->name('service.address_change.viewAddressChangeRequest');
 
 Route::get('service/logo_letter', [ServiceController::class, 'support_letter_logo_rule'])->name('service.support_letter_logo_rule');
 Route::get('service/logo_letter_form', [ServiceController::class, 'support_letter_logo_form'])->name('service.support_letter_logo_form');
 Route::post('service/logo_letter_form', [ServiceController::class, 'fill_support_letter_logo_form'])->name('service.fill_support_letter_logo_form');
-
+Route::get('service/letter/letterRequests', [ServiceController::class, 'viewLetterRequest'])->name('service.letter.viewLetterRequest');
 
 
 Route::get('service/meeting_letter', [ServiceController::class, 'support_letter_meeting_rule'])->name('service.support_letter_meeting_rule');

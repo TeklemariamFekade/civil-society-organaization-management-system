@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\CSO;
-use App\Models\AddressChange;
 use App\Models\NameChange;
 use App\Models\Support_Letter;
 use App\Models\Service;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\AddressChange;
 
 use App\Models\Notification;
 
@@ -90,6 +91,14 @@ class ServiceController extends Controller
         return redirect()->back()->with('success', 'Address Change request submitted successfully.');
     }
 
+    public function viewAddressChangeRequest()
+    {
+
+        $csos = Cso::has('addresschange')->get();
+
+        return view('service.address_change.addressChangeRequests', compact('csos'));
+    }
+
 
 
     // Name change rule
@@ -139,7 +148,13 @@ class ServiceController extends Controller
         $nameChange->save();
         return redirect()->back()->with('success', 'Name Change request submitted successfully.');
     }
+    public function viewNameChangeRequest()
+    {
 
+        $csos = CSO::has('nameChange')->get();
+
+        return view('service.name_change.nameChangeRequests', compact('csos'));
+    }
 
 
 
@@ -186,6 +201,16 @@ class ServiceController extends Controller
     }
 
 
+    public function viewLetterRequest()
+    {
+
+        $csos = CSO::has('supportLetters')->get();
+
+        return view('service.letter.letterRequests', compact('csos'));
+    }
+
+
+
 
     //support letter for meeting rule
     public function support_letter_meeting_rule()
@@ -206,26 +231,31 @@ class ServiceController extends Controller
             'app_amharic_name' => 'required|string',
             'cso_file' => 'required|file',
         ]);
-        $meetingLetter = new Support_Letter();
-        $notification = new Notification();
+
         $cso = CSO::where([
             ['english_name', '=', $request->input('app_english_name')],
             ['amharic_name', '=', $request->input('app_amharic_name')],
         ])->first();
+
+        if (!$cso) {
+            // Handle case where CSO is not found
+            return redirect()->back()->with('error', 'CSO not found.');
+        }
+
         $service = Service::where('service_name', 'support letter request')->first();
+
+        $meetingLetter = new Support_Letter();
+        $meetingLetter->send_date = Carbon::now();
+        $meetingLetter->cso_id = $cso->id;
+        $meetingLetter->service_id = $service ? $service->id : null;
+
         $cso_file = $request->file('cso_file');
         $filename = time() . '.' . $cso_file->getClientOriginalExtension();
         $cso_file->move('storage', $filename);
         $meetingLetter->cso_file = $filename;
-        $meetingLetter->send_date = Carbon::now();
 
-        if ($cso) {
-            $meetingLetter->cso_id = $cso->id;
-        }
-        if ($service) {
-            $meetingLetter->service_id = $service->id;
-        }
+        $meetingLetter->save();
 
-        return redirect()->back()->with('success', 'support letter request submitted successfully.');
+        return redirect()->back()->with('success', 'Support letter request submitted successfully.');
     }
 }

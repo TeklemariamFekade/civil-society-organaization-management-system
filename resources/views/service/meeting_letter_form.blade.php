@@ -4,7 +4,6 @@
     <div class="content-wrapper bg-light">
         <div class="container mx-auto">
             <div class="col-md-12 border">
-
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}

@@ -44,13 +44,14 @@ class CSO extends Model
 
     public function nameChange()
     {
-        return $this->hasOne(NameChange::class);
+        return $this->hasMany(NameChange::class, 'cso_id', 'id');
     }
 
-    public function addressChange()
+    public function addresschange()
     {
-        return $this->hasOne(AddressChange::class);
+        return $this->hasMany(AddressChange::class, 'cso_id', 'id');
     }
+
 
     public function registration()
     {
@@ -59,6 +60,6 @@ class CSO extends Model
 
     public function supportLetters()
     {
-        return $this->hasMany(Support_Letter::class);
+        return $this->hasMany(Support_Letter::class, 'cso_id', 'id');
     }
 }

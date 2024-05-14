@@ -41,17 +41,17 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ Route('registration.localrule') }}" class="nav-link">
+                            <a href="{{ Route('service.address_change.viewAddressChangeRequest') }}" class="nav-link">
                                 <i class="fas fa-map-marker-alt nav-icon d-inline"></i> Address Change Requests
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ Route('registration.foreignrule') }}" class="nav-link">
+                            <a href="{{ route('service.name_change.viewNameChangeRequest') }}" class="nav-link">
                                 <i class="fas fa-user-edit nav-icon d-inline"></i> Name Change Requests
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ Route('registration.foreignrule') }}" class="nav-link">
+                            <a href="{{ route('service.letter.viewLetterRequest') }}" class="nav-link">
                                 <i class="fas fa-file-alt nav-icon d-inline"></i> Support Letter Requests
                             </a>
                         </li>

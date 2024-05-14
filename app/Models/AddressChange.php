@@ -28,8 +28,9 @@ class AddressChange extends Model
 
     public function cso()
     {
-        return $this->belongsTo(CSO::class);
+        return $this->belongsTo(Cso::class, 'cso_id', 'id');
     }
+
 
     public function service()
     {
