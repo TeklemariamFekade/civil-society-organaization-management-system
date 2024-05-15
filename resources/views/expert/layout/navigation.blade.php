@@ -25,8 +25,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ Route('Task.index') }}"
-                        class="nav-link {{ Request::is('Task/index') || Request::is('registration/approval/*') ? 'active' : '' }}">
+                    <a href="{{ Route('Task.expert.index') }}"
+                        class="nav-link {{ Request::is('Task/expert/index') || Request::is('registration/approval/*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clipboard"></i>
                         <p>Task</p>
                     </a>

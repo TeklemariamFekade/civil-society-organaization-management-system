@@ -38,9 +38,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-building"></i>
-                        <p>Tasks</p>
+                    <a href="{{ Route('Task.dataEncoder.index') }}"
+                        class="nav-link {{ Request::is('Task/dataEncoder/index') || Request::is('registration/approval/*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-clipboard"></i>
+                        <p>Task</p>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -1,4 +1,4 @@
-@extends('expert.layout.app')
+@extends('dataencoder.layouts.app')
 @section('content')
     <div class="content-wrapper">
         <table class="table table-striped">
