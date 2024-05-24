@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Registration;
 use App\Models\Task;
+use App\Models\User;
 use App\Models\CSO;
 use Carbon\Carbon;
 use App\Models\Notification;
@@ -32,14 +33,6 @@ class RegistrationController extends Controller
         $csos = CSO::has('registration')->get();
 
         return view('registration.index', compact('csos'));
-    }
-
-    public function rejectRequest()
-    {
-    }
-
-    public function approve(Request $request, $id)
-    {
     }
 
     public function evaluateRegistration($id)
@@ -75,11 +68,27 @@ class RegistrationController extends Controller
 
         $notification = new Notification();
         $notification->send_date = Carbon::now();
-        $notification->title = 'Registration Requests';
-        $notification->notification_detail = 'New registration Request is requested ';
+        $notification->title = 'Registration Approval Announcement';
+        $notification->notification_detail = 'Your  registration Request requested in date is successfully approved by Authority for civil society organization in' . $notification->send_date . '.' . 'Your organization approval number is ' . $cso->approvalNumber . '.';
         // Store the supervisor user IDs as a comma-separated string
         $notification->cso_id = $cso->id;
         $notification->save();
+
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'Task completed Announcement';
+        $notification->notification_detail = 'The registration approval task requested from ' . $cso->english_name . ' is completed successfully' . 'in' . $notification->send_date;
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'completed';
+            $task->save();
+        }
+
+
 
         return redirect()->back()->with('success', 'approve successfully!');
     }
