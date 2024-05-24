@@ -1,5 +1,4 @@
 @extends('representative.layouts.app')
-
 @section('content')
     <div class="content-wrapper bg-light">
         <div class="container mx-auto">

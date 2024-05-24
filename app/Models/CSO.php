@@ -39,7 +39,7 @@ class CSO extends Model
 
     public function address()
     {
-        return $this->hasOne(Address::class);
+        return $this->hasOne(Address::class, 'cso_id', 'id');
     }
 
     public function nameChange()
@@ -51,8 +51,6 @@ class CSO extends Model
     {
         return $this->hasMany(AddressChange::class, 'cso_id', 'id');
     }
-
-
     public function registration()
     {
         return $this->hasMany(Registration::class, 'cso_id', 'id');
@@ -61,5 +59,14 @@ class CSO extends Model
     public function supportLetters()
     {
         return $this->hasMany(Support_Letter::class, 'cso_id', 'id');
+    }
+
+    public static function generateApprovalNumber()
+    {
+        do {
+            $approvalNumber = rand(100000, 999999); // Generate a random number
+        } while (self::where('approvalNumber', $approvalNumber)->exists());
+
+        return $approvalNumber;
     }
 }

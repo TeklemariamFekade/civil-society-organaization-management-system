@@ -37,15 +37,36 @@
                         <p>Sector</p>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="{{ Route('Task.dataEncoder.index') }}"
-                        class="nav-link {{ Request::is('Task/dataEncoder/index') || Request::is('registration/approval/*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-clipboard"></i>
-                        <p>Task</p>
+                        <p>Tasks <i class="fas fa-angle-left right"></i></p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('Task.dataEncoder.viewAddressChangeTask') }}"
+                                class="nav-link {{ Request::is('Task/dataEncoder/addressChangeIndex') ? 'active' : '' }}">
+                                <i class="fas fa-map-marker-alt nav-icon d-inline"></i> Address Change Tasks
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('Task.dataEncoder.viewNameChangeTask') }}"
+                                class="nav-link  {{ Request::is('Task/dataEncoder/nameChangeIndex') ? 'active' : '' }}">
+                                <i class="fas fa-user-edit nav-icon d-inline"></i> Name Change Tasks
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('Task.dataEncoder.viewLetterTask') }}"
+                                class="nav-link  {{ Request::is('Task/dataEncoder/letterIndex') ? 'active' : '' }}">
+                                <i class="fas fa-file-alt nav-icon d-inline"></i> Support Letter Tasks
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('notification.viewDataEncoderNotification') }}"
+                        class="nav-link {{ Request::is('notifications/dateEncoderNotification') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell"></i>
                         <p>Notification</p>
                     </a>

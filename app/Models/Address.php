@@ -26,6 +26,6 @@ class Address extends Model
 
     public function cso()
     {
-        return $this->belongsTo(CSO::class, 'cso_id');
+        return $this->belongsTo(CSO::class, 'cso_id', 'id');
     }
 }

@@ -27,7 +27,6 @@ class SectorController extends Controller
         $sector->sector_name = $request->sector_name;
         $sector->sub_sector_name = $request->sub_sector_name;
         $sector->save();
-
         return redirect()->back()->with('success', 'sector is added succussfully');
     }
 

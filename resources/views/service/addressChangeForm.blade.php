@@ -49,6 +49,13 @@
                             <legend class="bg-secondary text-white text-center font-italic">New Organizational Address
                                 Information</legend>
                             <div class="form-group m-1 row">
+                                <label for="country" class="col-sm-4 col-form-label mt-2">place of work:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="place_of_work" name="place_of_work"
+                                        class="form-control font-italic" placeholder="Enter place of work" required>
+                                </div>
+                            </div>
+                            <div class="form-group m-1 row">
                                 <label for="country" class="col-sm-4 col-form-label mt-2">Country:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="country" name="country" class="form-control font-italic"
@@ -94,8 +101,8 @@
                             <div class="form-group m-1 row">
                                 <label for="phone_no" class="col-sm-4 col-form-label mt-2">Phone Number:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="phone_no" name="phone_no" class="form-control font-italic"
-                                        placeholder="Enter phone number" required>
+                                    <input type="text" id="phone_no" name="phone_no"
+                                        class="form-control font-italic" placeholder="Enter phone number" required>
                                 </div>
                             </div>
                             <div class="form-group m-1 row">

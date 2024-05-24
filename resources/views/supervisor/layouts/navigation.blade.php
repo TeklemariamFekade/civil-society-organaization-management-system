@@ -26,7 +26,6 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a href="{{ Route('registration.index.viewRegistrationRequest') }}"
                         class="nav-link {{ Request::is('registration/index') ? 'active' : '' }}">
@@ -61,7 +60,8 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('notification.viewSupervisorNotification') }}"
+                        class="nav-link {{ Request::is('notifications/supervisorNotification') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell"></i>
                         <p>Notification</p>
                     </a>

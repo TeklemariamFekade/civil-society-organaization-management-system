@@ -10,6 +10,8 @@ use App\Models\Registration;
 use App\Models\CSO;
 use App\Models\Address;
 use App\Models\Sector;
+use App\Models\Notification;
+use App\Models\User;
 
 class CSOController extends Controller
 {
@@ -77,11 +79,20 @@ class CSOController extends Controller
         $registration->send_date = Carbon::now();
         $registration->save();
 
+        // Fetch all users with the 'supervisor' role
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'Registration Requests';
+        $notification->notification_detail = 'New civil society  registration Request is requested from' . $cso->english_name . 'in ' . $registration->send_date;
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+
         return redirect()->route('registration.registrationform')->with('success', 'Registration submitted successfully.');
     }
 
-
-    // public function show()
     // {
     //     // Logic for showing data
     // }

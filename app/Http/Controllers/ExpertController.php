@@ -72,10 +72,9 @@ class ExpertController extends Controller
         // Update the user information
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+
         if ($request->hasFile('photo')) {
-            $photo = $request->file('photo');
-            $photoPath = $photo->store('photos'); // Store the photo in the "photos" directory
-            $user->photo = $photoPath;
+            $user->photo = $request->file('photo')->store('public/photos');
         }
 
 

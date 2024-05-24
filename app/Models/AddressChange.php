@@ -9,7 +9,7 @@ class AddressChange extends Model
 {
     use HasFactory;
     protected $fillable = [
-
+        'place_of_work',
         'country',
         'region',
         'zone',
@@ -28,7 +28,7 @@ class AddressChange extends Model
 
     public function cso()
     {
-        return $this->belongsTo(Cso::class, 'cso_id', 'id');
+        return $this->hasOne(Cso::class, 'cso_id', 'id');
     }
 
 

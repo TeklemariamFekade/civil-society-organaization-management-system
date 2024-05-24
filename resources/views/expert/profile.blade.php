@@ -3,7 +3,6 @@
 @section('content')
     <?php
     $user = Auth::user();
-    
     ?>
     <div class="content-wrapper">
         <div class="container mx-auto">
@@ -13,7 +12,6 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                <!-- Added "ml-auto ml-2" classes here -->
                 <form action="{{ route('expert.updateProfile', $user->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
@@ -57,7 +55,7 @@
                                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                         @enderror
                                         @if ($user->photo)
-                                            <img src="{{ asset($user->photo) }}" alt="Profile Photo" width="100">
+                                            <img src="{{ asset('storage/' . $user->photo) }}" alt="Profile Photo">
                                         @else
                                             <span>No photo available</span>
                                         @endif
@@ -68,12 +66,11 @@
                         </div>
                     </div>
                     <div class="form-group m-2 text-center d-flex justify-content-center">
-                        <a href="{{ Route('expert.dashboard') }}" class="btn btn-dark mx-2">
+                        <a href="{{ route('expert.dashboard') }}" class="btn btn-dark mx-2">
                             <i class="fas fa-arrow-left"></i>
                             Back
                         </a>
-                        <button class="btn btn-dark mx-2">Update
-                        </button>
+                        <button class="btn btn-dark mx-2">Update</button>
                     </div>
                 </form>
             </div>

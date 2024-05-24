@@ -61,7 +61,8 @@
                                             <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                         @enderror
                                         @if ($user->photo)
-                                            <img src="{{ asset($user->photo) }}" alt="Profile Photo" width="100">
+                                            <img src="{{ asset('photos/' . $user->photo) }}" alt="Profile Photo"
+                                                width="200" height="200">
                                         @else
                                             <span>No photo available</span>
                                         @endif
@@ -94,7 +95,6 @@
         }
     </script>
 @endsection
-
 
 @push('scripts')
     @if (session('password_updated'))

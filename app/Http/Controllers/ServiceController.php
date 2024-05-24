@@ -9,7 +9,8 @@ use App\Models\Service;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\AddressChange;
-
+use App\Models\Task;
+use Exception;
 use App\Models\Notification;
 
 use Illuminate\Http\Request;
@@ -22,7 +23,6 @@ class ServiceController extends Controller
     {
         return view('service.index');
     }
-
 
 
     //address chang rule
@@ -88,6 +88,16 @@ class ServiceController extends Controller
         $addressChange->send_date = Carbon::now();
         $addressChange->save();
 
+        // send notification to supervisor
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'Address  Change Requests';
+        $notification->notification_detail = 'New civil society Address change request is requested from' . $cso->english_name . ' in' . $addressChange->send_date;
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+
         return redirect()->back()->with('success', 'Address Change request submitted successfully.');
     }
 
@@ -98,6 +108,72 @@ class ServiceController extends Controller
 
         return view('service.address_change.addressChangeRequests', compact('csos'));
     }
+    public function evaluateAddressChangeRequest($id)
+    {
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'On Progress';
+            $task->save();
+        }
+        $cso = CSO::findOrFail($id);
+
+        // Retrieve the related Address and Registration records
+        $address = $cso->address;
+        $addresschanges = $cso->addresschange;
+
+        return view('service.address_change.evaluateAddressChangeRequest', compact('cso', 'address', 'addresschanges'));
+    }
+    public function approveAddressChange($id)
+    {
+        $cso = CSO::findOrFail($id);
+        $address = $cso->address;
+
+        // Access the addresschange relationship as a query
+        $addressChange = $cso->addresschange()->latest()->first();
+
+        // Check if the necessary properties exist on the $addressChange model
+        if ($addressChange) {
+            $address->place_of_work = $addressChange->place_of_work;
+            $address->country = $addressChange->country;
+            $address->region = $addressChange->region;
+            $address->zone = $addressChange->zone;
+            $address->woreda = $addressChange->woreda;
+            $address->kebele = $addressChange->kebele;
+            $address->district = $addressChange->district;
+            $address->phone_no = $addressChange->phone_no;
+            $address->po_box = $addressChange->po_box;
+            $address->email = $addressChange->email;
+            $address->save();
+
+            $notification = new Notification();
+            $notification->send_date = Carbon::now();
+            $notification->title = 'Registration Requests';
+            $notification->notification_detail = 'nw registration Requests';
+            // Store the supervisor user IDs as a comma-separated string
+            $notification->cso_id = $cso->id;
+            $notification->save();
+
+            $task = Task::find($id);
+            if ($task) {
+                $task->status = 'completed';
+                $task->save();
+            }
+
+            return redirect()->back()->with('success', 'Address Change approved submitted successfully.');
+        }
+
+        // Handle the case where there is no address change record
+        return redirect()->back()->with('error', 'No address change record found for the given CSO.');
+    }
+
+
+
+    public function rejectAddressChange()
+    {
+    }
+
+
+
 
 
 
@@ -113,7 +189,6 @@ class ServiceController extends Controller
     }
 
     //fill name change form
-
     public function fillNameChangeForm(Request $request)
     {
         $request->validate([
@@ -125,7 +200,6 @@ class ServiceController extends Controller
         ]);
 
         $nameChange = new NameChange();
-        $notification = new Notification();
         $cso = CSO::where([
             ['english_name', $request->input('old_english_name')],
             ['amharic_name', $request->input('old_amharic_name')]
@@ -146,6 +220,15 @@ class ServiceController extends Controller
             $nameChange->service_id = $service->id;
         }
         $nameChange->save();
+
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'Name Change Requests';
+        $notification->notification_detail = 'New civil society name change request is requested from' . $cso->english_name . ' in' . $nameChange->send_date;
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
         return redirect()->back()->with('success', 'Name Change request submitted successfully.');
     }
     public function viewNameChangeRequest()
@@ -155,6 +238,56 @@ class ServiceController extends Controller
 
         return view('service.name_change.nameChangeRequests', compact('csos'));
     }
+    public function evaluateNameChangeRequest($id)
+    {
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'On Progress';
+            $task->save();
+        }
+
+        $cso = CSO::findOrFail($id);
+
+        // Retrieve the related Address and Registration records
+        $nameChange = $cso->nameChange;
+
+        return view('service.name_change.evaluateNameChangeRequests', compact('cso', 'nameChange'));
+    }
+    public function approveNameChange($id)
+    {
+        $cso = CSO::findOrFail($id);
+        $nameChange = $cso->nameChange()->latest()->first(); // Get the most recent name change
+
+        if ($nameChange) {
+            $cso->english_name = $nameChange->new_english_name;
+            $cso->amharic_name = $nameChange->new_amharic_name;
+            $cso->save();
+            return redirect()->back()->with('success', 'Successful');
+        } else {
+            // Handle the case where there is no name change record
+            throw new Exception("No name change record found for the given CSO.");
+        }
+
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'approval of address change';
+        $notification->notification_detail = 'nw registration Requests';
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->cso_id = $cso->id;
+        $notification->save();
+
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'completed';
+            $task->save();
+        }
+    }
+
+
+    public function rejectNameChange()
+    {
+    }
+
 
 
 
@@ -178,7 +311,6 @@ class ServiceController extends Controller
             'cso_file' => 'required|file',
         ]);
         $logoLetter = new Support_Letter();
-        $notification = new Notification();
         $cso = CSO::where([
             ['english_name', '=', $request->input('app_english_name')],
             ['amharic_name', '=', $request->input('app_amharic_name')]
@@ -197,6 +329,14 @@ class ServiceController extends Controller
         if ($service) {
             $logoLetter->service_id = $service->id;
         }
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'Registration Requests';
+        $notification->notification_detail = 'nw registration Requests';
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
 
         $logoLetter->save();
         return redirect()->back()->with('success', 'support letter request submitted successfully.');
@@ -209,10 +349,6 @@ class ServiceController extends Controller
 
         return view('service.letter.letterRequests', compact('csos'));
     }
-
-
-
-
 
     //support letter for meeting rule
     public function support_letter_meeting_rule()
@@ -257,6 +393,38 @@ class ServiceController extends Controller
         $meetingLetter->cso_file = $filename;
         $meetingLetter->save();
 
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->title = 'Registration Requests';
+        $notification->notification_detail = 'nw registration Requests';
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+
         return redirect()->back()->with('success', 'Support letter request submitted successfully.');
     }
+
+    public function evaluateSupportLetterRequest($id)
+    {
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'On Progress';
+            $task->save();
+        }
+
+        // Retrieve the CSO record by ID
+        $cso = CSO::findOrFail($id);
+
+        // Retrieve the related Address and Registration records
+        $supportLetters = $cso->supportLetters;
+
+        return view('service.letter.evaluateLetterRequests', compact('cso', 'supportLetters'));
+    }
+    public function replySupportLetter()
+    {
+    }
+
+    // evaluate
+
 }

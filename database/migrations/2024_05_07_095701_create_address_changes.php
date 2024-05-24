@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('address_changes', function (Blueprint $table) {
             $table->id();
+            $table->string('place_of_work');
             $table->string('country');
             $table->string('region');
             $table->string('zone');

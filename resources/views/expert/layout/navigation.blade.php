@@ -39,7 +39,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="" class="nav-link {{ Request::is('notification') ? 'active' : '' }}">
+                    <a href="{{ route('notification.viewExpertNotification') }}"
+                        class="nav-link {{ Request::is('notifications/expertNotification') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell"></i>
                         <p>Notification</p>
                     </a>
@@ -73,7 +74,6 @@
                     </form>
                 </li>
             </ul>
-
             <style>
                 .nav-item.active .nav-link {
                     background-color: blue;
