@@ -43,6 +43,7 @@ class ServiceController extends Controller
             'app_english_name' => 'required|string',
             'app_amharic_name' => 'required|string',
             'category' => 'required|string',
+            'place_of_work' => 'required|string',
             'country' => 'required|string',
             'region' => 'required|string',
             'zone' => 'required|string',
@@ -64,6 +65,7 @@ class ServiceController extends Controller
 
         $addressChange = new AddressChange();
         $notification = new Notification();
+        $addressChange->place_of_work = $request->input('place_of_work');
         $addressChange->country = $request->input('country');
         $addressChange->region = $request->input('region');
         $addressChange->zone = $request->input('zone');
@@ -93,7 +95,7 @@ class ServiceController extends Controller
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->title = 'Address  Change Requests';
-        $notification->notification_detail = 'New civil society Address change request is requested from' . $cso->english_name . ' in' . $addressChange->send_date;
+        $notification->notification_detail = 'New civil society Address change request is requested from' . ' ' . $cso->english_name . ' ' . ' in' . ' ' . $addressChange->send_date;
         // Store the supervisor user IDs as a comma-separated string
         $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
         $notification->save();
@@ -149,7 +151,7 @@ class ServiceController extends Controller
             $notification = new Notification();
             $notification->send_date = Carbon::now();
             $notification->title = 'Address Change Approval Announcement';
-            $notification->notification_detail = 'Your  Address Change Request requested in date is successfully approved by Authority for civil society organization in' . $notification->send_date . '.';
+            $notification->notification_detail = 'Your  Address Change Request requested in date is successfully approved by Authority for civil society organization in' . ' ' . $notification->send_date . '.';
             // Store the supervisor user IDs as a comma-separated string
             $notification->cso_id = $cso->id;
             $notification->save();
@@ -159,7 +161,7 @@ class ServiceController extends Controller
             $notification = new Notification();
             $notification->send_date = Carbon::now();
             $notification->title = 'Task completed Announcement';
-            $notification->notification_detail = ' An Address change request task requested from ' . $cso->english_name . ' is completed successfully' . 'in' . $notification->send_date;
+            $notification->notification_detail = ' An Address change request task requested from ' . $cso->english_name . ' is completed successfully' . ' ' . 'in ' . ' ' . $notification->send_date;
             // Store the supervisor user IDs as a comma-separated string
             $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
             $notification->save();
@@ -236,7 +238,7 @@ class ServiceController extends Controller
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->title = 'Name Change Requests';
-        $notification->notification_detail = 'New civil society name change request is requested from' . $cso->english_name . ' in' . $nameChange->send_date;
+        $notification->notification_detail = 'New civil society name change request is requested from' . ' ' . $cso->english_name . ' in' . ' ' . $nameChange->send_date;
         // Store the supervisor user IDs as a comma-separated string
         $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
         $notification->save();
@@ -277,7 +279,7 @@ class ServiceController extends Controller
             $notification = new Notification();
             $notification->send_date = Carbon::now();
             $notification->title = 'Name Change Approval Announcement';
-            $notification->notification_detail = 'Your  organization Name Change Request requested in date is successfully approved by Authority for civil society organization in' . $notification->send_date . '.';
+            $notification->notification_detail = 'Your  organization Name Change Request requested in date is successfully approved by Authority for civil society organization in' . ' ' . $notification->send_date . '.';
             // Store the supervisor user IDs as a comma-separated string
             $notification->cso_id = $cso->id;
             $notification->save();
@@ -287,7 +289,7 @@ class ServiceController extends Controller
             $notification = new Notification();
             $notification->send_date = Carbon::now();
             $notification->title = 'Task completed Announcement';
-            $notification->notification_detail = ' An Address change request task requested from ' . $cso->english_name . ' is completed successfully' . 'in' . $notification->send_date;
+            $notification->notification_detail = 'Organization Name change request task requested from ' . ' ' . $cso->english_name . ' is completed successfully' . 'in' . ' ' . $notification->send_date;
             // Store the supervisor user IDs as a comma-separated string
             $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
             $notification->save();
@@ -359,7 +361,7 @@ class ServiceController extends Controller
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->title = 'Logo Change Requests';
-        $notification->notification_detail = 'New civil society logo change request is requested from' . $cso->english_name . ' in' .  $logoLetter->send_date->send_date;
+        $notification->notification_detail = 'New civil society logo change request is requested from' . ' ' . $cso->english_name . ' in' . ' ' .  $logoLetter->send_date;
         // Store the supervisor user IDs as a comma-separated string
         $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
         $notification->save();
@@ -422,7 +424,7 @@ class ServiceController extends Controller
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->title = 'Meeting invitation letter Requests';
-        $notification->notification_detail = ' Civil society Meeting invitation letter Request is requested from' . $cso->english_name . ' in' .  $meetingLetter->send_date->send_date;
+        $notification->notification_detail = ' Civil society Meeting invitation letter Request is requested from' . ' ' . $cso->english_name . ' in' . ' ' . $meetingLetter->send_date->send_date;
         // Store the supervisor user IDs as a comma-separated string
         $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
         $notification->save();
@@ -445,7 +447,6 @@ class ServiceController extends Controller
 
         return view('service.letter.evaluateLetterRequests', compact('cso', 'supportLetters'));
     }
-
 
     public function replySupportLetter()
     {

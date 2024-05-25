@@ -71,20 +71,75 @@ class NotificationController extends Controller
     }
 
 
-    public function send_address_change_notification()
+
+    //Vew detail notification Detail
+
+    public function notificationDetail($id)
     {
+        $notification = Notification::find($id);
+        if ($notification->status == false) {
+            $notification->status = true;
+            $notification->save();
+        }
+        return view('notifications.notificationDetail', compact('notification'));
     }
-    public function send_name_change_notification()
+    public function supervisorNotificationDetail($id)
     {
+        $notification = Notification::find($id);
+        if ($notification->status == false) {
+            $notification->status = true;
+            $notification->save();
+        }
+        return view('notifications.supervisorNotificationDetail', compact('notification'));
     }
-    public function send_logo_letter_notification()
+    public function expertNotificationDetail($id)
     {
+        $notification = Notification::find($id);
+        if ($notification->status == false) {
+            $notification->status = true;
+            $notification->save();
+        }
+        return view('notifications.expertDetailNotification', compact('notification'));
     }
-    public function send_meeting_letter_notification()
+    public function dataEncoderNotificationDetail($id)
     {
+        $notification = Notification::find($id);
+        if ($notification->status == false) {
+            $notification->status = true;
+            $notification->save();
+        }
+        return view('notifications.dataEncoderDetailNotification', compact('notification'));
     }
 
-    public function send_task_notification()
+    // delete notification
+
+
+    public function deleteRepresentativeNotification($id)
     {
+        $notification = Notification::find($id);
+        $notification->delete();
+        return view('notifications.notificationDetail', compact('notification'));
+    }
+
+    public function deleteExpertNotification($id)
+    {
+        $notification = Notification::find($id);
+        $notification->delete();
+        return view('notifications.expertDetailNotification', compact('notification'));
+    }
+
+    public function deleteDataEncoderNotification($id)
+    {
+        $notification = Notification::find($id);
+        $notification->delete();
+
+        return view('notifications.dataEncoderDetailNotification', compact('notification'));
+    }
+
+    public function deleteSupervisorNotification($id)
+    {
+        $notification = Notification::find($id);
+        $notification->delete();
+        return view('notifications.supervisorNotificationDetail', compact('notification'));
     }
 }

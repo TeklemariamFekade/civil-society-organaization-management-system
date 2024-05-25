@@ -13,6 +13,11 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if (session('error'))
+                    <div class="alert alert-error">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <form action="{{ route('registration.request') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <fieldset class="border">
@@ -115,7 +120,8 @@
                             </div>
                         </fieldset>
                         <fieldset class="border">
-                            <legend class="bg-secondary text-light text-center font-italic">Address Information</legend>
+                            <legend class="bg-secondary text-light text-center font-italic">Head Office Address Information
+                            </legend>
                             <div class="form-row m-3">
                                 <div class="col-md-6">
                                     <div class="form-group d-flex align-items-center">

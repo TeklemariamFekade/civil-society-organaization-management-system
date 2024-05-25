@@ -33,7 +33,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ Route('registration.localrule') }}" class="nav-link">
+                            <a href="{{ Route('registration.localrule') }}"
+                                class="nav-link {{ Request::is('registration/localrule') ? 'active' : '' }}">
                                 <i class="fas fa-angle-right nav-icon"></i>
                                 <p>Local CSO</p>
                             </a>

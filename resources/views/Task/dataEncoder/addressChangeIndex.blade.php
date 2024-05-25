@@ -24,7 +24,7 @@
                         <td>{{ $task->address_changes_id }}</td>
                         <td>{{ $task->status }}</td>
                         <td>
-                            <a href="{{ route('service.address_change.evaluateAddressChangeRequest', ['id' => $task->address_changes_id]) }}
+                            <a href="{{ route('service.address_change.evaluateAddressChangeRequest', $task->address_changes_id) }}
                                 "
                                 style="display: inline-block; padding: 12px 15px; background-color: DodgerBlue; color: white; text-decoration: none; border-radius: 4px;">Evaluate</a>
                         </td>

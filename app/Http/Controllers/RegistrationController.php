@@ -69,7 +69,7 @@ class RegistrationController extends Controller
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->title = 'Registration Approval Announcement';
-        $notification->notification_detail = 'Your  registration Request requested in date is successfully approved by Authority for civil society organization in' . $notification->send_date . '.' . 'Your organization approval number is ' . $cso->approvalNumber . '.';
+        $notification->notification_detail = 'Your  registration Request requested in date is successfully approved by Authority for civil society organization in' . ' ' . $notification->send_date . '. ' . 'Your organization approval number is ' . $cso->approvalNumber . '.';
         // Store the supervisor user IDs as a comma-separated string
         $notification->cso_id = $cso->id;
         $notification->save();
@@ -78,7 +78,7 @@ class RegistrationController extends Controller
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->title = 'Task completed Announcement';
-        $notification->notification_detail = 'The registration approval task requested from ' . $cso->english_name . ' is completed successfully' . 'in' . $notification->send_date;
+        $notification->notification_detail = 'The registration approval task requested from ' . ' ' . $cso->english_name . ' ' . ' is completed successfully' . 'in' . ' ' .  $notification->send_date;
         // Store the supervisor user IDs as a comma-separated string
         $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
         $notification->save();

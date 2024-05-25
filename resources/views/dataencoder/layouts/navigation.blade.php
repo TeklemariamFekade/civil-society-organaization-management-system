@@ -21,7 +21,7 @@
                     <a href="{{ Route('dataencoder.dashboard') }}"
                         class="nav-link {{ Request::is('dataencoder/dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-line"></i>
-                        <p>Dashboard</p>
+                        <p> Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">

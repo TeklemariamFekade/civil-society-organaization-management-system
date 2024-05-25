@@ -2,6 +2,20 @@
 
 @section('content')
     <div class="content-wrapper">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger mb-1 mt-1">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -52,15 +66,7 @@
                                             <button type="button" class="btn btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger mb-1 mt-1">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
+
                                         <form
                                             action="{{ route('registration.assignRegistrationTask', ['id' => $registration->id]) }}"
                                             method="POST">

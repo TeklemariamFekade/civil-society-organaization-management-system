@@ -78,12 +78,8 @@ Route::post('service/meeting_letter_form', [ServiceController::class, 'fill_supp
 Route::get('Task/dataEncoder/letterIndex/{id}/', [ServiceController::class, 'evaluateSupportLetterRequest'])->name('service.letter.evaluateSupportLetterRequest');
 Route::get('Task/dataEncoder/nameChangeIndex/{id}/', [ServiceController::class, 'evaluateNameChangeRequest'])->name('service.name_change.evaluateNameChangeRequest');
 Route::get('Task/dataEncoder/addressChangeIndex/{id}/', [ServiceController::class, 'evaluateAddressChangeRequest'])->name('service.address_change.evaluateAddressChangeRequest');
-
 Route::post('service/address_change/evaluateAddressChangeRequest/{id}/', [ServiceController::class, 'approveAddressChange'])->name('service.address_change.approveAddressChange');
 Route::post('service/name_change/evaluateNameChangeRequests/{id}/', [ServiceController::class, 'approveNameChange'])->name('service.name_change.approveNameChange');
-
-
-
 
 
 // Admin  Controller routes
@@ -171,8 +167,21 @@ Route::get('registration/index', [RegistrationController::class, 'viewRegistrati
 
 Route::post('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'approveRegistration'])->name('registration.approveRegistration');
 
+// view notification route
 
 Route::get('notifications/dateEncoderNotification', [NotificationController::class, 'viewDataEncoderNotification'])->name('notification.viewDataEncoderNotification');
 Route::get('notifications/expertNotification', [NotificationController::class, 'viewExpertNotification'])->name('notification.viewExpertNotification');
 Route::get('notifications/supervisorNotification', [NotificationController::class, 'viewSupervisorNotification'])->name('notification.viewSupervisorNotification');
 Route::get('notifications/representativeNotification', [NotificationController::class, 'viewRepresentativeNotification'])->name('notification.viewRepresentativeNotification');
+
+//  View detail notification route
+
+Route::get('notifications/notificationDetail/{id}/', [NotificationController::class, 'notificationDetail'])->name('notification.notificationDetail');
+Route::get('notifications/dataEncoderDetailNotification/{id}/', [NotificationController::class, 'dataEncoderNotificationDetail'])->name('notification.dataEncoderNotificationDetail');
+Route::get('notifications/expertDetailNotification/{id}/', [NotificationController::class, 'expertNotificationDetail'])->name('notification.expertNotificationDetail');
+Route::get('notifications/supervisorNotificationDetail/{id}/', [NotificationController::class, 'supervisorNotificationDetail'])->name('notification.supervisorNotificationDetail');
+//Delete notification route
+Route::delete('notifications/notificationDetail/{id}/', [NotificationController::class, 'deleteRepresentativeNotification'])->name('notification.deleteRepresentativeNotification');
+Route::delete('notifications/dataEncoderDetailNotification/{id}/', [NotificationController::class, 'deleteDataEncoderNotification'])->name('notification.deleteDataEncoderNotification');
+Route::delete('notifications/expertDetailNotification/{id}/', [NotificationController::class, 'deleteExpertNotification'])->name('notification.deleteExpertNotification');
+Route::delete('notifications/supervisorNotificationDetail/{id}/', [NotificationController::class, 'deleteSupervisorNotification'])->name('notification.deleteSupervisorNotification');
