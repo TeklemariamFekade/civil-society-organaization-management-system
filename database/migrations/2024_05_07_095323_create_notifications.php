@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->date('send_date');
+            $table->string('sender');
             $table->string('title');
             $table->text('notification_detail');
             $table->boolean('status')->default(false);

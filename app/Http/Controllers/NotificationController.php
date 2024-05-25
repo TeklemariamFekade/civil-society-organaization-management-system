@@ -18,56 +18,85 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    //
-    public function index()
-    {
-    }
+    // notification Index
 
     public function viewDataEncoderNotification()
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
-        $notifications = Notification::where('user_id', $loggedInUserId)
+        // Retrieve unread notifications assigned to the logged-in user
+        $unreadNotifications = Notification::where('user_id', $loggedInUserId)
+            ->where('status', false)
             ->get();
+
+        // Retrieve read notifications assigned to the logged-in user
+        $readNotifications = Notification::where('user_id', $loggedInUserId)
+            ->where('status', true)
+            ->get();
+
+        // Combine the unread and read notifications
+        $notifications = $unreadNotifications->merge($readNotifications);
         return view("notifications.dataEncoderNotification", compact("notifications"));
     }
-
     public function viewSupervisorNotification()
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
-        $notifications = Notification::where('user_id', $loggedInUserId)
+        // Retrieve unread notifications assigned to the logged-in user
+        $unreadNotifications = Notification::where('user_id', $loggedInUserId)
+            ->where('status', false)
             ->get();
+
+        // Retrieve read notifications assigned to the logged-in user
+        $readNotifications = Notification::where('user_id', $loggedInUserId)
+            ->where('status', true)
+            ->get();
+
+        // Combine the unread and read notifications
+        $notifications = $unreadNotifications->merge($readNotifications);
+
         return view("notifications.supervisorNotification", compact("notifications"));
     }
     public function viewExpertNotification()
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
-        $notifications = Notification::where('user_id', $loggedInUserId)
+        // Retrieve unread notifications assigned to the logged-in user
+        $unreadNotifications = Notification::where('user_id', $loggedInUserId)
+            ->where('status', false)
             ->get();
+
+        // Retrieve read notifications assigned to the logged-in user
+        $readNotifications = Notification::where('user_id', $loggedInUserId)
+            ->where('status', true)
+            ->get();
+
+        // Combine the unread and read notifications
+        $notifications = $unreadNotifications->merge($readNotifications);
         return view("notifications.expertNotification", compact("notifications"));
     }
     public function viewRepresentativeNotification()
     {
-
-        $loggedInUserId  = Auth::guard('representative')->id();
-
-        // Get the representative record for the logged-in user
+        $loggedInUserId = Auth::guard('representative')->id();
         $cso = CSO::where('representative_id', $loggedInUserId)->first();
 
         if ($cso !== null) {
-            $notifications = Notification::whereHas('cso', function ($query) use ($loggedInUserId) {
+            // Retrieve all notifications related to the CSO of the logged-in representative
+            $allNotifications = Notification::whereHas('cso', function ($query) use ($loggedInUserId) {
                 $query->where('representative_id', $loggedInUserId);
             })->get();
 
-            return view("notifications.representativeNotification", compact("notifications"));
+            // Separate the unread and read notifications
+            $unreadNotifications = $allNotifications->where('status', false);
+            $readNotifications = $allNotifications->where('status', true);
+
+            // Combine the unread and read notifications, with unread first
+            $notifications = $unreadNotifications->merge($readNotifications);
         } else {
-            return view("notifications.representativeNotification", ['notifications' => []]);
+            $notifications = collect([]);
         }
+
+        return view("notifications.representativeNotification", compact("notifications"));
     }
 
 
@@ -111,35 +140,41 @@ class NotificationController extends Controller
         return view('notifications.dataEncoderDetailNotification', compact('notification'));
     }
 
-    // delete notification
 
 
-    public function deleteRepresentativeNotification($id)
+
+
+    // delate notifications
+    public function deleteSupervisorNotification(Notification $notification)
     {
-        $notification = Notification::find($id);
         $notification->delete();
-        return view('notifications.notificationDetail', compact('notification'));
+
+        return redirect()->route('notification.viewSupervisorNotification')
+            ->with('success', 'notification  deleted successfully.');
     }
 
-    public function deleteExpertNotification($id)
+    public function deleteRepresentativeNotification(Notification $notification)
     {
-        $notification = Notification::find($id);
         $notification->delete();
-        return view('notifications.expertDetailNotification', compact('notification'));
+
+        return redirect()->route('notification.viewRepresentativeNotification')
+            ->with('success', 'notification  deleted successfully.');
     }
 
-    public function deleteDataEncoderNotification($id)
+
+    public function deleteExpertNotification(Notification $notification)
     {
-        $notification = Notification::find($id);
         $notification->delete();
 
-        return view('notifications.dataEncoderDetailNotification', compact('notification'));
+        return redirect()->route('notification.viewExpertNotification')
+            ->with('success', 'notification  deleted successfully.');
     }
 
-    public function deleteSupervisorNotification($id)
+    public function deleteDataEncoderNotification(Notification $notification)
     {
-        $notification = Notification::find($id);
         $notification->delete();
-        return view('notifications.supervisorNotificationDetail', compact('notification'));
+
+        return redirect()->route('notification.viewDataEncoderNotification')
+            ->with('success', 'notification  deleted successfully.');
     }
 }

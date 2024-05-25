@@ -54,7 +54,8 @@
                                                             <td class="text-success"><i class="fa fa-paper-plane"></i> Send
                                                                 Date</td>
                                                             @foreach ($cso->supportLetters as $csos)
-                                                                <td>{{ $csos->send_date }}</td>
+                                                                <td>{{ Carbon\Carbon::parse($csos->send_date)->format('M d, Y') }}
+                                                                </td>
                                                             @endforeach
                                                         </tr>
                                                     </tbody>

@@ -94,15 +94,17 @@ class CSOController extends Controller
 
             $notification = new Notification();
             $notification->send_date = Carbon::now();
+            $notification->sender =  $cso->english_name;
             $notification->title = 'Registration Requests';
             $notification->notification_detail = 'New civil society  registration Request is requested from ' . ' ' . $cso->english_name . ' ' . ' in ' . ' ' . $registration->send_date;
             // Store the supervisor user IDs as a comma-separated string
             $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
             $notification->save();
 
-            return redirect()->route('registration.registrationform')->with('error', 'Registration submitted successfully.');
+            return redirect()->route('registration.registrationform')->with('success', 'Registration submitted successfully.');
         }
     }
+
 
     // {
     //     // Logic for showing data

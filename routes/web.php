@@ -181,7 +181,7 @@ Route::get('notifications/dataEncoderDetailNotification/{id}/', [NotificationCon
 Route::get('notifications/expertDetailNotification/{id}/', [NotificationController::class, 'expertNotificationDetail'])->name('notification.expertNotificationDetail');
 Route::get('notifications/supervisorNotificationDetail/{id}/', [NotificationController::class, 'supervisorNotificationDetail'])->name('notification.supervisorNotificationDetail');
 //Delete notification route
-Route::delete('notifications/notificationDetail/{id}/', [NotificationController::class, 'deleteRepresentativeNotification'])->name('notification.deleteRepresentativeNotification');
-Route::delete('notifications/dataEncoderDetailNotification/{id}/', [NotificationController::class, 'deleteDataEncoderNotification'])->name('notification.deleteDataEncoderNotification');
-Route::delete('notifications/expertDetailNotification/{id}/', [NotificationController::class, 'deleteExpertNotification'])->name('notification.deleteExpertNotification');
-Route::delete('notifications/supervisorNotificationDetail/{id}/', [NotificationController::class, 'deleteSupervisorNotification'])->name('notification.deleteSupervisorNotification');
+Route::delete('notifications/notificationDetail/{notification}/', [NotificationController::class, 'deleteRepresentativeNotification'])->name('notification.deleteRepresentativeNotification');
+Route::delete('notifications/dataEncoderDetailNotification/{notification}/', [NotificationController::class, 'deleteDataEncoderNotification'])->name('notification.deleteDataEncoderNotification');
+Route::delete('notifications/expertDetailNotification/{notification}/', [NotificationController::class, 'deleteExpertNotification'])->name('notification.deleteExpertNotification');
+Route::delete('notifications/supervisorNotificationDetail/{notification}/', [NotificationController::class, 'deleteSupervisorNotification'])->name('notification.deleteSupervisorNotification');

@@ -1,44 +1,48 @@
 @extends('dataencoder.layouts.app')
 @section('content')
     <div class="content-wrapper">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header ">Notifications</div>
+                        <div class="card-header">Notifications</div>
                         <div class="card-body">
                             @if (count($notifications) > 0)
-                                <table class="table ">
+                                <table class="table">
                                     <tbody>
                                         @foreach ($notifications as $notification)
-                                            <tr class="clickable-row"
+                                            <tr class="clickable-row" role="button" aria-label="{{ $notification->title }}"
                                                 onclick="window.location='{{ route('notification.dataEncoderNotificationDetail', $notification->id) }}'">
                                                 <td>
                                                     @if (!$notification->status)
-                                                        <strong>ACSO</strong>
+                                                        <strong>{{ $notification->sender }}</strong>
                                                     @else
-                                                        ACSO
+                                                        {{ $notification->sender }}
                                                     @endif
                                                 </td>
                                                 <td>
                                                     @if (!$notification->status)
-                                                        <strong>{{ $notification->title }}--</strong>
+                                                        <strong>{{ $notification->title }} --</strong>
                                                     @else
-                                                        {{ $notification->title }}--
+                                                        {{ $notification->title }} --
                                                     @endif
-                                                    {{ Str::limit($notification->notification_detail, 50) }}
+                                                    {{ substr($notification->notification_detail, 0, 60) }}--
                                                 </td>
                                                 <td>
                                                     @if (!$notification->status)
-                                                        <strong>{{ $notification->send_date }}</strong>
+                                                        <strong>{{ Carbon\Carbon::parse($notification->send_date)->format('M d, Y') }}</strong>
                                                     @else
-                                                        {{ $notification->send_date }}
+                                                        {{ Carbon\Carbon::parse($notification->send_date)->format('M d, Y') }}
                                                     @endif
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
-
                                 </table>
                             @else
                                 <p>You have no notifications.</p>
@@ -57,9 +61,8 @@
         }
 
         .clickable-row:hover {
-            background-color: #f5f5f5;
+            background-color: #dbf10fe5;
         }
     </style>
-
 
 @endsection

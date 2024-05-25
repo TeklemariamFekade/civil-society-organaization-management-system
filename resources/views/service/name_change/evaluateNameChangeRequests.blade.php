@@ -70,7 +70,9 @@
                                                                     Date</td>
 
 
-                                                                <td>{{ $csos->send_date }}</td>
+                                                                <td>
+                                                                    {{ Carbon\Carbon::parse($csos->send_date)->format('M d, Y') }}
+                                                                </td>
                                                         @endforeach
                                                         </tr>
                                                     </tbody>

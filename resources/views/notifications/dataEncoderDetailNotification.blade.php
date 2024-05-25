@@ -27,10 +27,20 @@
                             </a>
                         </div>
                         <div class="card-footer d-flex justify-content-end">
-                            <a href="{{ route('notification.deleteDataEncoderNotification', $notification->id) }}"
+                            {{-- <a href="{{ route('notification.deleteSupervisorNotification', $notification->id) }}"
                                 class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete">
                                 <i class="fa fa-trash"></i>
-                            </a>
+                            </a> --}}
+                            <form action="{{ route('notification.deleteDataEncoderNotification', $notification->id) }}"
+                                method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                                    data-placement="bottom" title="Delete"
+                                    onclick="return confirm('Are you sure you want to delete this Message?')">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

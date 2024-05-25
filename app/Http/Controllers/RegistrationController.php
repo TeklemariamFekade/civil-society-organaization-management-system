@@ -37,20 +37,19 @@ class RegistrationController extends Controller
 
     public function evaluateRegistration($id)
     {
-        $task = Task::find($id);
-        if ($task) {
+        $task = Task::findOrFail($id);
+        if ($task->status === 'not start') {
             $task->status = 'On Progress';
             $task->save();
         }
-
-        // Retrieve the CSO record by ID
-        $cso = CSO::findOrFail($id);
+        $registration = Registration::findOrFail($task->registration_id);
+        $cso = CSO::findOrFail($registration->cso_id);
         if ($cso->status === 'apply') {
             // Update the status of the CSO record to 'pending'
             $cso->status = 'pending';
             $cso->save();
         }
-        // Retrieve the related Address and Registration records
+
         $address = $cso->address;
         $registration = $cso->registration;
 
@@ -65,9 +64,9 @@ class RegistrationController extends Controller
         $cso->approvalNumber = CSO::generateApprovalNumber();
         $cso->save();
 
-
         $notification = new Notification();
         $notification->send_date = Carbon::now();
+        $notification->sender = 'ACSO';
         $notification->title = 'Registration Approval Announcement';
         $notification->notification_detail = 'Your  registration Request requested in date is successfully approved by Authority for civil society organization in' . ' ' . $notification->send_date . '. ' . 'Your organization approval number is ' . $cso->approvalNumber . '.';
         // Store the supervisor user IDs as a comma-separated string
@@ -93,7 +92,7 @@ class RegistrationController extends Controller
         return redirect()->back()->with('success', 'approve successfully!');
     }
 
-    public function rejectRegistration()
+    public function giveRegistrationFedBack($id)
     {
     }
 }

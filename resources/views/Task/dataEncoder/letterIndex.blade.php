@@ -20,7 +20,8 @@
                     <tr>
                         <td>{{ ++$count }}</td>
                         <td>{{ $task->task_name }}</td>
-                        <td>{{ $task->due_date }}</td>
+                        <td>{{ Carbon\Carbon::parse($task->due_date)->format('M d, Y') }}
+                        </td>
                         <td>{{ $task->support_letter_id }}</td>
                         <td>{{ $task->status }}</td>
                         <td>

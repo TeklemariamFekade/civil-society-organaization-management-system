@@ -1,6 +1,11 @@
 @extends('supervisor.layouts.app')
 @section('content')
     <div class="content-wrapper">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-12">
@@ -15,9 +20,9 @@
                                                 onclick="window.location='{{ route('notification.supervisorNotificationDetail', $notification->id) }}'">
                                                 <td>
                                                     @if (!$notification->status)
-                                                        <strong>ACSO</strong>
+                                                        <strong>{{ $notification->sender }}</strong>
                                                     @else
-                                                        ACSO
+                                                        {{ $notification->sender }}
                                                     @endif
                                                 </td>
                                                 <td>
@@ -26,7 +31,7 @@
                                                     @else
                                                         {{ $notification->title }} --
                                                     @endif
-                                                    {{ substr($notification->notification_detail, 0, 70) }}--
+                                                    {{ substr($notification->notification_detail, 0, 60) }}--
                                                 </td>
                                                 <td>
                                                     @if (!$notification->status)
