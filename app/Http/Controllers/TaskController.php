@@ -110,7 +110,7 @@ class TaskController extends Controller
 
                 $notification = new Notification();
                 $notification->send_date = Carbon::now();
-                $notification->sender = 'ACSO';
+                $notification->sender =  Auth::user()->name . ' ,' . 'Supervisor';
                 $notification->title = 'Registration Approval Process Started';
                 $notification->notification_detail = 'Your  registration Request requested in date is on process . Authority for civil society organization  announce the result recently ';
                 // Store the supervisor user IDs as a comma-separated string
@@ -124,7 +124,7 @@ class TaskController extends Controller
 
             $notification = new Notification();
             $notification->send_date = Carbon::now();
-            $notification->sender = 'Supervisor';
+            $notification->sender =  Auth::user()->name . ' ,' . 'Supervisor';
             $notification->title = 'Registration Requests tasks';
             $notification->notification_detail = 'new registration Request task is assigned for you. The due date of the task is ' . $task->due_date;   // Store the supervisor user IDs as a comma-separated string
             $notification->user_id = $assignedUser->id;
@@ -176,7 +176,7 @@ class TaskController extends Controller
             if ($cso) {
                 $notification = new Notification();
                 $notification->send_date = Carbon::now();
-                $notification->sender = 'ACSO';
+                $notification->sender =  Auth::user()->name . ' ,' . 'ACSO Supervisor';
                 $notification->title = 'OrganizatIon Name Change Approval Process Started';
                 $notification->notification_detail = 'Your OrganizatIon Name Change  Request requested in date is on process . Authority for civil society organization  announce the result recently ';
                 // Store the supervisor user IDs as a comma-separated string
@@ -191,7 +191,7 @@ class TaskController extends Controller
 
             $notification = new Notification();
             $notification->send_date = Carbon::now();
-            $notification->sender = 'Supervisor';
+            $notification->sender =  Auth::user()->name . ', ' . 'Supervisor';
             $notification->title = 'Organization Name Change Request Tasks';
             $notification->notification_detail = 'New Organization Name Change Request Task is assigned for you. The due date of the task is ' . $task->due_date;   // Store the supervisor user IDs as a comma-separated string
             // Store the supervisor user IDs as a comma-separated string
@@ -243,7 +243,7 @@ class TaskController extends Controller
             if ($cso) {
                 $notification = new Notification();
                 $notification->send_date = Carbon::now();
-                $notification->sender = 'ACSO';
+                $notification->sender = Auth::user()->name . ' ,' . 'ACSO Supervisor';
                 $notification->title = 'Support letter Approval Process Started';
                 $notification->notification_detail = 'Your Support letter Request requested in date is on process . Authority for civil society organization  announce the result recently ';
                 $notification->cso_id = $cso->id;
@@ -255,7 +255,7 @@ class TaskController extends Controller
             }
             $notification = new Notification();
             $notification->send_date = Carbon::now();
-            $notification->sender = 'Supervisor';
+            $notification->sender = Auth::user()->name . ' ,' . 'Supervisor';
             $notification->title = 'Support Letter Request Tasks';
             $notification->notification_detail = ' Organization Support Letter Request Task is assigned for you. The due date of the task is ' . $task->due_date;   // Store the supervisor user IDs as a comma-separated string
             // Store the supervisor user IDs as a comma-separated string
@@ -304,7 +304,7 @@ class TaskController extends Controller
                 if ($cso) { // Check if $cso is not null
                     $notification = new Notification();
                     $notification->send_date = Carbon::now();
-                    $notification->sender = 'ACSO';
+                    $notification->sender = Auth::user()->name . ' ,' . 'ACSO Supervisor';
                     $notification->title = 'Address Change Approval Process Started';
                     $notification->notification_detail = 'Your Address Change Request requested in date is on process . Authority for civil society organization announce the result recently';
                     $notification->cso_id = $cso->id; // Now you can safely access the id property
@@ -318,7 +318,7 @@ class TaskController extends Controller
 
                 $notification = new Notification();
                 $notification->send_date = Carbon::now();
-                $notification->sender = 'Supervisor';
+                $notification->sender = Auth::user()->name . ' ,' . 'Supervisor';
                 $notification->title = 'Organization Address Change Tasks';
                 $notification->notification_detail = 'Organization Address Change Task is assigned for you. The due date of the task is ' . $task->due_date;   // Store the supervisor user IDs as a comma-separated string
                 // Store the supervisor user IDs as a comma-separated string

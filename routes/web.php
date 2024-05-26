@@ -82,6 +82,14 @@ Route::post('service/address_change/evaluateAddressChangeRequest/{id}/', [Servic
 Route::post('service/name_change/evaluateNameChangeRequests/{id}/', [ServiceController::class, 'approveNameChange'])->name('service.name_change.approveNameChange');
 
 
+
+// give feadback and reply route
+Route::post('service/address_change/evaluateAddressChangeRequest/{id}/', [ServiceController::class, 'giveAddressChangeFedBack'])->name('service.address_change.giveAddressChangeFedBack');
+Route::post('service/name_change/evaluateNameChangeRequests/{id}/', [ServiceController::class, 'giveNameChangeFedBack'])->name('service.name_change.giveNameChangeFedBack');
+Route::post('service/letter/evaluateLetterRequests/{id}/', [ServiceController::class, 'replySupportLetter'])->name('service.letter.replySupportLetter');
+
+
+
 // Admin  Controller routes
 
 Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -165,7 +173,13 @@ Route::post('registration/registrationform', [CSOController::class, 'request'])-
 Route::get('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'evaluateRegistration'])->name('registration.evaluateRegistration');
 Route::get('registration/index', [RegistrationController::class, 'viewRegistrationRequest'])->name('registration.index.viewRegistrationRequest');
 
+
+
 Route::post('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'approveRegistration'])->name('registration.approveRegistration');
+Route::post('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'giveRegistrationFedBack'])->name('registration.giveRegistrationFedBack');
+
+
+
 
 // view notification route
 

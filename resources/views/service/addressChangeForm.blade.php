@@ -1,5 +1,4 @@
 @extends('representative.layouts.app')
-
 @section('content')
     <div class="content-wrapper bg-light">
         <div class="container mx-auto">
@@ -63,14 +62,14 @@
                                 </div>
                             </div>
                             <div class="form-group m-1 row">
-                                <label for="region" class="col-sm-4 col-form-label mt-2">Region:</label>
+                                <label for="region" class="col-sm-4 col-form-label mt-2">Region/ City:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="region" name="region" class="form-control font-italic"
                                         placeholder="Enter the region" required>
                                 </div>
                             </div>
                             <div class="form-group m-1 row">
-                                <label for="zone" class="col-sm-4 col-form-label mt-2">Zone:</label>
+                                <label for="zone" class="col-sm-4 col-form-label mt-2">Zone/ Sub_City:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="zone" name="zone" class="form-control font-italic"
                                         placeholder="Enter zone" required>

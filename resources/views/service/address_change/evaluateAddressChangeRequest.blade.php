@@ -47,15 +47,14 @@
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-user"></i> English
+                                                            <td class="text-success"><i class="fa fa-user"></i> Organization
                                                                 Name
                                                             </td>
                                                             <td>{{ $cso->english_name }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td class="text-success"><i class="fa fa-language"></i>
-                                                                Amharic
-                                                                Name</td>
+                                                                የተቋሙ /የድርጅቱ ስም </td>
                                                             <td>{{ $cso->amharic_name }}</td>
                                                         </tr>
                                                         <tr>
@@ -64,7 +63,7 @@
                                                             </td>
                                                             <td>{{ $cso->category }}</td>
                                                         </tr>
-                                                        {{-- @foreach ($addresschanges as $addresschange)
+                                                        {{-- @foreach ($cso->addresschange as $addresschange)
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-paper-plane"></i>
                                                                     Send Date</td>
@@ -143,66 +142,66 @@
                                             <div class="table-responsive panel">
                                                 <table class="table">
                                                     <tbody>
-                                                        @foreach ($addresschanges as $addresschange)
+                                                        @foreach ($cso->addresschanges as $change)
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-building"></i>
                                                                     Place of
                                                                     Work</td>
-                                                                <td>{{ $addresschange->place_of_work }}</td>
+                                                                <td>{{ $change->place_of_work }}</td>
                                                             </tr>
                                                             <tr>
 
                                                                 <td class="text-success"><i class="fa fa-building"></i>
                                                                     Country</td>
-                                                                <td>{{ $addresschange->country }}</td>
+                                                                <td>{{ $change->country }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-map-marker"></i>
                                                                     Region
                                                                     / City</td>
-                                                                <td>{{ $addresschange->region }}</td>
+                                                                <td>{{ $change->region }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-map"></i> Zone
                                                                     Subcity
                                                                 </td>
-                                                                <td>{{ $addresschange->zone }}</td>
+                                                                <td>{{ $change->zone }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-building"></i>
                                                                     district</td>
-                                                                <td>{{ $addresschange->district }}</td>
+                                                                <td>{{ $change->district }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-map-signs"></i>
                                                                     Woreda
                                                                 </td>
-                                                                <td>{{ $addresschange->woreda }}</td>
+                                                                <td>{{ $change->woreda }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-home"></i>
                                                                     Kebela
                                                                 </td>
-                                                                <td>{{ $addresschange->kebele }}</td>
+                                                                <td>{{ $change->kebele }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-envelope"></i>
                                                                     Email
                                                                 </td>
-                                                                <td>{{ $addresschange->email }}</td>
+                                                                <td>{{ $change->email }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-mobile"></i>
                                                                     Mobile
                                                                     Number</td>
-                                                                <td>{{ $addresschange->phone_no }}</td>
+                                                                <td>{{ $change->phone_no }}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-inbox"></i>
                                                                     P.O.
                                                                     Box
                                                                 </td>
-                                                                <td>{{ $addresschange->po_box }}</td>
+                                                                <td>{{ $change->po_box }}</td>
                                                             </tr>
                                                         @endforeach
 
@@ -223,8 +222,8 @@
                                         </div> --}}
 
                                         <div id="General" class="tab-pane fade">
-                                            @foreach ($addresschanges as $addresschange)
-                                                @if ($addresschange->cso_file)
+                                            @foreach ($addressChanges as $change)
+                                                @if ($change->cso_file)
                                                     <div class="card card-body"
                                                         style="width: 800px; max-height: 2000px; overflow-y: scroll;">
                                                         <embed src="{{ asset('storage/' . $cso->cso_file) }}"
@@ -246,14 +245,61 @@
                                                 <button type="submit" class="btn btn-success">Approve</button>
                                             </div>
                                         </form>
+                                        <div class="card-body text-center">
+                                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#mdl-{{ $cso->id }}">
+                                                Give Feedback
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="mdl-{{ $cso->id }}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-center font-weight-bolder">Give
+                                                        feedback
+                                                        for applicant</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form
+                                                    action="{{ route('service.address_change.giveAddressChangeFedBack', $cso->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="title">Title for feedback</label>
+                                                            <input type="text" class="form-control font-italic w-100"
+                                                                placeholder="Enter Title" name="title" required>
+                                                            @error('title')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="description">Description</label>
+                                                            <textarea name="notification_detail" cols="30" rows="10" class="form-control w-100"
+                                                                placeholder="Enter Description"></textarea>
+                                                            @error('description')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger bg-danger"
+                                                            data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-success">Send</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.table-responsive -->
             </div>
+            <!-- /.table-responsive -->
         </div>
     </div>
 @endsection

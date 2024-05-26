@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group d-flex align-items-center">
-                                        <label for="region" class="col-form-label">Region:</label>
+                                        <label for="region" class="col-form-label">Region/ City:</label>
                                         <input type="text" id="region" name="region"
                                             class="form-control font-italic" placeholder="Enter the region" required>
                                     </div>
@@ -141,7 +141,7 @@
                             <div class="form-row m-3">
                                 <div class="col-md-6">
                                     <div class="form-group d-flex align-items-center">
-                                        <label for="zone" class="col-form-label">Zone:</label>
+                                        <label for="zone" class="col-form-label">Zone / Sub-City :</label>
                                         <input type="text" id="zone" name="zone"
                                             class="form-control font-italic" placeholder="Enter zone" required>
                                     </div>

@@ -20,9 +20,9 @@
                                                 onclick="window.location='{{ route('notification.supervisorNotificationDetail', $notification->id) }}'">
                                                 <td>
                                                     @if (!$notification->status)
-                                                        <strong>{{ $notification->sender }}</strong>
+                                                        <strong>{{ substr($notification->sender, 0, 13) }}--</strong>
                                                     @else
-                                                        {{ $notification->sender }}
+                                                        {{ substr($notification->sender, 0, 13) }}--
                                                     @endif
                                                 </td>
                                                 <td>

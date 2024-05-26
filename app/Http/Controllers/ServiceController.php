@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CSO;
 use App\Models\NameChange;
 use App\Models\Support_Letter;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Service;
 use Carbon\Carbon;
 use App\Models\User;
@@ -117,19 +118,25 @@ class ServiceController extends Controller
     }
     public function evaluateAddressChangeRequest($id)
     {
-        $task = Task::find($id);
-        if ($task) {
+        // Find the task by the provided ID
+
+        $task = Task::findOrFail($id);
+        if ($task->status === 'not start') {
             $task->status = 'On Progress';
             $task->save();
         }
-        $cso = CSO::findOrFail($id);
 
-        // Retrieve the related Address and Registration records
+        // Find the associated address change record
+        $addresschanges = AddressChange::findOrFail($task->address_change_id);
+        $cso = CSO::findOrFail($addresschanges->cso_id);
+        // Find the associated CSO record
+        // Retrieve the related address and address change records
         $address = $cso->address;
-        $addresschanges = $cso->addresschange;
-
+        $addresschanges = $cso->addresschanges;
+        // Return the view with the necessary data
         return view('service.address_change.evaluateAddressChangeRequest', compact('cso', 'address', 'addresschanges'));
     }
+
     public function approveAddressChange($id)
     {
         $cso = CSO::findOrFail($id);
@@ -185,8 +192,38 @@ class ServiceController extends Controller
         // Handle the case where there is no address change record
         return redirect()->back()->with('error', 'No address change record found for the given CSO.');
     }
-    public function giveAddressChangeFedBack($id)
+    public function giveAddressChangeFedBack(Request $request, $id)
     {
+
+        $request->validate([
+            'title' => 'required',
+            'notification_detail' => 'required',
+        ]);
+        $cso = CSO::findOrFail($id);
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . ' ACSO Expert';
+        $notification->title =  $request->input('title');
+        $notification->notification_detail =  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->cso_id = $cso->id;
+        $notification->save();
+
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . 'Expert';
+        $notification->title = 'Task completed Announcement';
+        $notification->notification_detail = 'An address change  approval task requested from ' . ' ' . $cso->english_name . ' ' . ' is not complete and I give the following feadback' . ' ' . ' ' .  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'completed';
+            $task->save();
+        }
+        return redirect()->back()->with('success', 'feadback sent  successfully!');
     }
 
 
@@ -263,13 +300,16 @@ class ServiceController extends Controller
     }
     public function evaluateNameChangeRequest($id)
     {
-        $task = Task::find($id);
-        if ($task) {
+        $task = Task::findOrFail($id);
+        if ($task->status === 'not start') {
             $task->status = 'On Progress';
             $task->save();
         }
+        $nameChange = NameChange::findOrFail($task->name_changes_id);
 
-        $cso = CSO::findOrFail($id);
+        $cso = CSO::findOrFail($nameChange->cso_id);
+
+
 
         // Retrieve the related Address and Registration records
         $nameChange = $cso->nameChange;
@@ -317,11 +357,39 @@ class ServiceController extends Controller
             throw new Exception("No name change record found for the given CSO.");
         }
     }
-    public function giveNameChangeFedBack($id)
+    public function giveNameChangeFedBack(Request $request, $id)
     {
+
+        $request->validate([
+            'title' => 'required',
+            'notification_detail' => 'required',
+        ]);
+        $cso = CSO::findOrFail($id);
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . ' ACSO Expert';
+        $notification->title =  $request->input('title');
+        $notification->notification_detail =  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->cso_id = $cso->id;
+        $notification->save();
+
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . 'Expert';
+        $notification->title = 'Task completed Announcement';
+        $notification->notification_detail = 'Name  change  approval task requested from ' . ' ' . $cso->english_name . ' ' . ' is not complete and I give the following feadback' . ' ' . ' ' .  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'completed';
+            $task->save();
+        }
+        return redirect()->back()->with('success', 'feadback sent  successfully!');
     }
-
-
 
 
     ////// Support Letter Methods
@@ -466,8 +534,39 @@ class ServiceController extends Controller
         return view('service.letter.evaluateLetterRequests', compact('cso', 'supportLetters'));
     }
 
-    public function replySupportLetter()
+    public function replySupportLetter(Request $request, $id)
     {
+
+
+        $request->validate([
+            'title' => 'required',
+            'notification_detail' => 'required',
+        ]);
+        $cso = CSO::findOrFail($id);
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . ' ACSO Expert';
+        $notification->title =  $request->input('title');
+        $notification->notification_detail =  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->cso_id = $cso->id;
+        $notification->save();
+
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . 'Expert';
+        $notification->title = 'Task completed Announcement';
+        $notification->notification_detail = 'Support Letter Request task requested from ' . ' ' . $cso->english_name . ' ' . ' is not complete and I give the following feadback' . ' ' . ' ' .  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'completed';
+            $task->save();
+        }
+        return redirect()->back()->with('success', 'feadback sent  successfully!');
     }
     // evaluate
 }

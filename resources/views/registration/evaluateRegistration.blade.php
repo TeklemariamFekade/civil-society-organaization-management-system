@@ -79,38 +79,57 @@
                                                 </table>
                                             </div>
                                         </div>
+
                                         <div id="Address" class="tab-pane fade">
                                             <div class="table-responsive panel">
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-building"></i> Place of
+                                                            <td class="text-success"><i class="fa fa-building"></i>
+                                                                Place of
                                                                 Work</td>
                                                             <td>{{ $address->place_of_work }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-map-marker"></i> Region
+                                                            <td class="text-success"><i class="fa fa-building"></i>
+                                                                Country</td>
+                                                            <td>{{ $address->country }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-success"><i class="fa fa-map-marker"></i>
+                                                                Region
                                                                 / City</td>
                                                             <td>{{ $address->region }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-map"></i> Zone Subcity
+                                                            <td class="text-success"><i class="fa fa-map"></i> Zone
+                                                                Subcity
                                                             </td>
                                                             <td>{{ $address->zone }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-map-signs"></i> Woreda
+                                                            <td class="text-success"><i class="fa fa-building"></i>
+                                                                district</td>
+                                                            <td>{{ $address->district }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-success"><i class="fa fa-map-signs"></i>
+                                                                Woreda
                                                             </td>
                                                             <td>{{ $address->woreda }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-home"></i> Kebela</td>
+                                                            <td class="text-success"><i class="fa fa-home"></i> Kebela
+                                                            </td>
                                                             <td>{{ $address->kebele }}</td>
                                                         </tr>
+
+
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
+
                                         <div id="Contact" class="tab-pane fade">
                                             <div class="table-responsive panel">
                                                 <table class="table">
@@ -157,10 +176,10 @@
                                                 <p class="text-muted">No file uploaded.</p>
                                             @endif
                                         </div>
+                                        {{-- {{ route('registration.approveRegistration', $cso->id) }} --}}
                                         {{-- {{ route('expert.approval.post',  $cso ->id) }} --}}
                                         <div class="d-flex justify-content-between">
-                                            <form action="{{ route('registration.approveRegistration', $cso->id) }}"
-                                                method="POST">
+                                            <form action="" method="POST">
                                                 @csrf
                                                 <div class="card-body text-center">
                                                     <button type="submit" class="btn btn-success">Approve</button>
@@ -173,7 +192,6 @@
                                                 </button>
                                             </div>
                                         </div>
-
                                         <div class="modal fade" id="mdl-{{ $cso->id }}" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -184,7 +202,9 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
-                                                    <form {{-- action="{{ route('registration.assignRegistrationTask', $cso->id) }}" --}} method="POST">
+                                                    <form
+                                                        action="{{ route('registration.giveRegistrationFedBack', $cso->id) }}"
+                                                        method="POST">
                                                         @csrf
                                                         <div class="modal-body">
                                                             <div class="form-group">
@@ -198,7 +218,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="description">Description</label>
-                                                                <textarea name="description" cols="30" rows="10" class="form-control w-100"
+                                                                <textarea name="notification_detail" cols="30" rows="10" class="form-control w-100"
                                                                     placeholder="Enter Description"></textarea>
                                                                 @error('description')
                                                                     <div class="text-danger">{{ $message }}</div>
@@ -208,7 +228,7 @@
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-danger bg-danger"
                                                                 data-dismiss="modal">Cancel</button>
-                                                            <button type="submit" class="btn btn-success">Assign</button>
+                                                            <button type="submit" class="btn btn-success">Send</button>
                                                         </div>
                                                     </form>
                                                 </div>

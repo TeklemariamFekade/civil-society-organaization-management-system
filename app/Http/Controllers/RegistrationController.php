@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Registration;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 use App\Models\User;
 use App\Models\CSO;
@@ -49,7 +50,6 @@ class RegistrationController extends Controller
             $cso->status = 'pending';
             $cso->save();
         }
-
         $address = $cso->address;
         $registration = $cso->registration;
 
@@ -58,6 +58,7 @@ class RegistrationController extends Controller
 
     public function approveRegistration($id)
     {
+        $loggedInUser = Auth::id();
         $cso = CSO::findOrFail($id);
         $cso->current_status = true;
         $cso->status  = 'approved';
@@ -66,16 +67,19 @@ class RegistrationController extends Controller
 
         $notification = new Notification();
         $notification->send_date = Carbon::now();
-        $notification->sender = 'ACSO';
+        $notification->sender =  Auth::user()->name . ', ' . ' ACSO Expert';
         $notification->title = 'Registration Approval Announcement';
         $notification->notification_detail = 'Your  registration Request requested in date is successfully approved by Authority for civil society organization in' . ' ' . $notification->send_date . '. ' . 'Your organization approval number is ' . $cso->approvalNumber . '.';
         // Store the supervisor user IDs as a comma-separated string
         $notification->cso_id = $cso->id;
         $notification->save();
 
+
+
         $supervisorUsers = User::where('role', 'supervisor')->get();
         $notification = new Notification();
         $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ', ' . 'Expert';
         $notification->title = 'Task completed Announcement';
         $notification->notification_detail = 'The registration approval task requested from ' . ' ' . $cso->english_name . ' ' . ' is completed successfully' . 'in' . ' ' .  $notification->send_date;
         // Store the supervisor user IDs as a comma-separated string
@@ -92,7 +96,36 @@ class RegistrationController extends Controller
         return redirect()->back()->with('success', 'approve successfully!');
     }
 
-    public function giveRegistrationFedBack($id)
+    public function giveRegistrationFedBack(Request $request, $id)
     {
+        $request->validate([
+            'title' => 'required',
+            'notification_detail' => 'required',
+        ]);
+        $cso = CSO::findOrFail($id);
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . ' ACSO Expert';
+        $notification->title =  $request->input('title');
+        $notification->notification_detail =  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->cso_id = $cso->id;
+        $notification->save();
+
+        $supervisorUsers = User::where('role', 'supervisor')->get();
+        $notification = new Notification();
+        $notification->send_date = Carbon::now();
+        $notification->sender =  Auth::user()->name . ' ,' . 'Expert';
+        $notification->title = 'Task completed Announcement';
+        $notification->notification_detail = 'The registration approval task requested from ' . ' ' . $cso->english_name . ' ' . ' is not complete and I give the following feadback' . ' ' . ' ' .  $request->input('notification_detail');
+        // Store the supervisor user IDs as a comma-separated string
+        $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
+        $notification->save();
+        $task = Task::find($id);
+        if ($task) {
+            $task->status = 'completed';
+            $task->save();
+        }
+        return redirect()->back()->with('success', 'feadback sent  successfully!');
     }
 }

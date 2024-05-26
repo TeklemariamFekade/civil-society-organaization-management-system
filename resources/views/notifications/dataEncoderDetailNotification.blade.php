@@ -18,6 +18,10 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <h5 class="">
+                                <i class="fas fa-user-circle mr-2"></i>
+                                <strong>{{ $notification->sender }}</strong>
+                            </h5>
                             <h5 class="card-title"><strong>{{ $notification->title }}</strong></h5>
                             <p class="card-text">{{ $notification->notification_detail }}</p>
                             <p class="card-text"><small class="text-muted">Sent on: {{ $notification->send_date }}</small>

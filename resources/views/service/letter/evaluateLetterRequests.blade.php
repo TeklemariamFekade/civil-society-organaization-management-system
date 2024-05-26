@@ -36,13 +36,14 @@
                                                 <table class="table">
                                                     <tbody>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-user"></i> English Name
+                                                            <td class="text-success"><i class="fa fa-user"></i>
+                                                                Organaization Name
                                                             </td>
                                                             <td>{{ $cso->english_name }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <td class="text-success"><i class="fa fa-language"></i> Amharic
-                                                                Name</td>
+                                                            <td class="text-success"><i class="fa fa-language"></i> የተቋሙ
+                                                                /የድርጅቱ ስም</td>
                                                             <td>{{ $cso->amharic_name }}</td>
                                                         </tr>
                                                         <tr>
@@ -95,14 +96,61 @@
                                                 <button type="submit" class="btn btn-success">Approve</button>
                                             </div>
                                         </form>
+                                        <div class="card-body text-center">
+                                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                                data-target="#mdl-{{ $cso->id }}">
+                                                Give Feedback
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="mdl-{{ $cso->id }}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-center font-weight-bolder">Give
+                                                        feedback
+                                                        for applicant</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('service.letter.replySupportLetter', $cso->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="title">Title for feedback</label>
+                                                            <input type="text" class="form-control font-italic w-100"
+                                                                placeholder="Enter Title" name="title" required>
+                                                            @error('title')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="description">Description</label>
+                                                            <textarea name="notification_detail" cols="30" rows="10" class="form-control w-100"
+                                                                placeholder="Enter Description"></textarea>
+                                                            @error('description')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger bg-danger"
+                                                            data-dismiss="modal">Cancel</button>
+                                                        <button type="submit" class="btn btn-success">Send</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.table-responsive -->
             </div>
+            <!-- /.table-responsive -->
         </div>
+    </div>
     </div>
 @endsection
