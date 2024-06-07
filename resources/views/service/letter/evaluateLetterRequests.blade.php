@@ -88,14 +88,14 @@
                                             @endif
                                         </div>
                                         {{-- {{ route('expert.approval.post',  $cso ->id) }} --}}
-                                        <form action="" method="POST">
+                                        {{-- <form action="" method="POST">
                                             @csrf
                                             <!-- Your existing form content -->
 
                                             <div class="card-body text-center">
                                                 <button type="submit" class="btn btn-success">Approve</button>
                                             </div>
-                                        </form>
+                                        </form> --}}
                                         <div class="card-body text-center">
                                             <button type="button" class="btn btn-success" data-toggle="modal"
                                                 data-target="#mdl-{{ $cso->id }}">

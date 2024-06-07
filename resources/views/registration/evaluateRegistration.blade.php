@@ -176,10 +176,11 @@
                                                 <p class="text-muted">No file uploaded.</p>
                                             @endif
                                         </div>
-                                        {{-- {{ route('registration.approveRegistration', $cso->id) }} --}}
+
                                         {{-- {{ route('expert.approval.post',  $cso ->id) }} --}}
                                         <div class="d-flex justify-content-between">
-                                            <form action="" method="POST">
+                                            <form action="{{ route('registration.approveRegistration', $cso->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <div class="card-body text-center">
                                                     <button type="submit" class="btn btn-success">Approve</button>

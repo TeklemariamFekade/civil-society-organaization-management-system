@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('csos', function (Blueprint $table) {
@@ -31,12 +26,6 @@ return new class extends Migration
             $table->foreign('representative_id')->references('id')->on('representatives')->onDelete('set null');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('csos');

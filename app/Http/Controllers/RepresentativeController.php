@@ -27,6 +27,14 @@ class RepresentativeController extends Controller
             'email' => 'Your password or email is incorrect.',
         ]);
     }
+
+
+
+    public function register()
+    {
+        return view('representative.register');
+    }
+
     public function showDashboard()
     {
         return view('representative.dashboard');
@@ -93,29 +101,52 @@ class RepresentativeController extends Controller
     // }
     public function SignUp(Request $request)
     {
-
         $email = $request->input('email');
         $password = $request->input('password');
         $confirmPassword = $request->input('confirm_password');
+
         if (Representative::where('email', $email)->exists()) {
-            return redirect()->back()->withErrors(['registered' => 'Ths email is already registered.']);
-        } elseif ($password !== $confirmPassword) {
-            return redirect()->back()->withErrors(['password_mismatch' => 'The passwords do not match.']);
-        } else {
-            $request->validate([
-                'name' => 'required',
-                'email' => 'required|unique:users,email',
-                'password' => 'required|min:6',
-                'confirm_password' => 'required|same:password',
-            ]);
-            $representative = new Representative();
-            $representative->name = $request->name;
-            $representative->email = $request->email;
-            $representative->password = Hash::make($request->password); // Hash the password
-            $representative->save();
-            return redirect()->route('representative.login')->with('success', 'Registration successful!');
+            return redirect()->back()->withInput()->withErrors(['email' => 'This email is already registered.']);
         }
+
+        if ($password !== $confirmPassword) {
+            return redirect()->back()->withInput()->withErrors(['password_mismatch' => 'The passwords do not match.']);
+        }
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:representatives,email',
+            'password' => [
+                'required',
+                'min:6',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/'
+            ],
+            'confirm_password' => 'required|same:password',
+        ], [
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'Please enter a valid email address.',
+            'email.unique' => 'This email is already registered.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 6 characters.',
+            'password.regex' => 'The password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.',
+            'password.not_compromised' => 'The password has been compromised and is not secure. Please choose a different password.',
+            'confirm_password.required' => 'The confirm password field is required.',
+            'confirm_password.same' => 'The passwords do not match.',
+        ]);
+
+        $representative = new Representative();
+        $representative->name = $request->name;
+        $representative->email = $request->email;
+        $representative->password = Hash::make($request->password);
+        $representative->save();
+
+        return redirect()->route('representative.login')->with('success', 'Registration successful!');
     }
+
 
     public function cso()
     {

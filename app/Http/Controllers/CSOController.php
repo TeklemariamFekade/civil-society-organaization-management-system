@@ -49,7 +49,7 @@ class CSOController extends Controller
 
         if ($existingCSO) {
 
-            return redirect()->route('registration.registrationform')->with('success', 'Your organaisation name is registerd before this time.');
+            return redirect()->route('registration.registrationform')->with('error', 'Your organaisation name is registerd before this time.');
         } else {
 
 

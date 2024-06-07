@@ -15,25 +15,48 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            $request->session()->regenerate();
+            return $this->redirectToIntendedDashboard();
         }
 
         return back()->withErrors([
-            'email' => 'Invalid credentials',
-        ]);
+            'email' => 'The provided credentials are incorrect.',
+        ])->onlyInput('email');
     }
 
-    public function logout()
+    protected function redirectToIntendedDashboard()
+    {
+        $user = Auth::user();
+
+        if ($user->status === 1) {
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'supervisor':
+                    return redirect()->route('supervisor.dashboard');
+                case 'expert':
+                    return redirect()->route('expert.dashboard');
+                case 'dataencoder':
+                    return redirect()->route('dataencoder.dashboard');
+                default:
+                    return redirect()->route('login')->with('error', 'Your account is locked.');
+            }
+        } else {
+            return redirect()->route('login')->with('error', 'Your account is locked.');
+        }
+    }
+
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login');
-    }
-
-    public function register()
-    {
-        return view('representative.register');
     }
 }

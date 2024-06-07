@@ -4,7 +4,7 @@
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row mb-2 bg-white">
                     <h3 class="b border-bottom m-3 pl-3"><strong> Registration of Civil Society Organization For
                             foreign</strong></h3>
                     <div>
@@ -15,8 +15,7 @@
                     </div>
                     <div class="col-sm-11 ml-1">
                         <div class="bg-white  m-3  pb-5  text-justify">
-                            <hr class="border-4 ">
-                            <p class="border-top p-2 fw-bold"> <strong> Service Description </strong></p>
+                            <h5 class="border-top p-2 fw-bold"> <strong> Service Description </strong></h5>
                             <p class="p-3 ">
                                 Authority for Civil Society Organizations provides the service of registration of foreign
                                 civil society organization which is a non-governmental organization formed under the laws of

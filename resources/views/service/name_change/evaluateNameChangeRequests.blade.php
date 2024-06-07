@@ -100,9 +100,11 @@
                                             @endif
                                         </div>
                                         {{-- {{ route('expert.approval.post',  $cso ->id) }} --}}
-                                        <form action="{{ route('service.name_change.approveNameChange', $cso->id) }}"
+
+                                        <form action="    {{ route('service.name_change.approveNameChange', $cso->id) }}"
                                             method="POST">
                                             @csrf
+
                                             <!-- Your existing form content -->
                                             <div class="card-body text-center">
                                                 <button type="submit" class="btn btn-success">Approve</button>

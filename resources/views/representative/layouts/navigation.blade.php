@@ -10,7 +10,7 @@
                 <?php
                 $representative = Auth::guard('representative')->user();
                 ?>
-                <a href="{{ route('representative.profile') }}" class="d-block">{{ $representative->name }}</a>
+                <a href="" class="d-block">{{ $representative->name }}</a>
             </div>
         </div>
         <!-- Sidebar Menu -->

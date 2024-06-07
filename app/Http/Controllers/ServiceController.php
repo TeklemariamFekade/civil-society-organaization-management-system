@@ -106,6 +106,7 @@ class ServiceController extends Controller
             // Handle the case where no record was found
             // For example, throw an exception or return an error response
             throw new Exception("CSO record not found");
+            return redirect()->back()->with('error', 'Your organization name is incorrect.');
         }
     }
 
@@ -118,14 +119,11 @@ class ServiceController extends Controller
     }
     public function evaluateAddressChangeRequest($id)
     {
-        // Find the task by the provided ID
-
         $task = Task::findOrFail($id);
         if ($task->status === 'not start') {
             $task->status = 'On Progress';
             $task->save();
         }
-
         // Find the associated address change record
         $addresschanges = AddressChange::findOrFail($task->address_change_id);
         $cso = CSO::findOrFail($addresschanges->cso_id);
@@ -288,7 +286,7 @@ class ServiceController extends Controller
         } else {
             // Handle the case where no record was found
             // For example, throw an exception or return an error response
-            throw new Exception("CSO record not found");
+            return redirect()->back()->with('error', 'Your organization name is incorrect.');
         }
     }
     public function viewNameChangeRequest()
@@ -308,8 +306,6 @@ class ServiceController extends Controller
         $nameChange = NameChange::findOrFail($task->name_changes_id);
 
         $cso = CSO::findOrFail($nameChange->cso_id);
-
-
 
         // Retrieve the related Address and Registration records
         $nameChange = $cso->nameChange;
@@ -451,7 +447,7 @@ class ServiceController extends Controller
         } else {
             // Handle the case where no record was found
             // For example, throw an exception or return an error response
-            throw new Exception("CSO record not found");
+            return redirect()->back()->with('error', 'Your organization name is incorrect.');
         }
     }
 
@@ -513,21 +509,24 @@ class ServiceController extends Controller
         } else {
             // Handle the case where no record was found
             // For example, throw an exception or return an error response
-            throw new Exception("CSO record not found");
+            return redirect()->back()->with('error', 'Your organization name is incorrect.');
         }
     }
 
     public function evaluateSupportLetterRequest($id)
     {
-        $task = Task::find($id);
-        if ($task) {
+
+
+        $task = Task::findOrFail($id);
+        if ($task->status === 'not start') {
             $task->status = 'On Progress';
             $task->save();
         }
+        $supportLetters = Support_Letter::findOrFail($task->support_letter_id);
 
-        // Retrieve the CSO record by ID
-        $cso = CSO::findOrFail($id);
+        $cso = CSO::findOrFail($supportLetters->cso_id);
 
+        // Retrieve the related Address and Registration records
         // Retrieve the related Address and Registration records
         $supportLetters = $cso->supportLetters;
 

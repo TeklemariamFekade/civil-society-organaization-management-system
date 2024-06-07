@@ -20,9 +20,9 @@
                                                 onclick="window.location='{{ route('notification.expertNotificationDetail', $notification->id) }}'">
                                                 <td>
                                                     @if (!$notification->status)
-                                                        <strong>{{ substr($notification->sender, 0, 13) }}--</strong>
+                                                        <strong>{{ substr($notification->sender, 0, 8) }}--</strong>
                                                     @else
-                                                        {{ substr($notification->sender, 0, 13) }}--
+                                                        {{ substr($notification->sender, 0, 8) }}--
                                                     @endif
                                                 </td>
                                                 <td>
@@ -31,7 +31,7 @@
                                                     @else
                                                         {{ $notification->title }} --
                                                     @endif
-                                                    {{ substr($notification->notification_detail, 0, 60) }}--
+                                                    {{ substr($notification->notification_detail, 0, 35) }}--
                                                 </td>
                                                 <td>
                                                     @if (!$notification->status)

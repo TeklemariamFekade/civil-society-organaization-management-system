@@ -13,29 +13,6 @@ use App\Models\Notification;
 
 class RegistrationController extends Controller
 {
-    //
-    public function foreignRule()
-    {
-        return view('registration.foreignrule');
-    }
-
-    public function localRule()
-    {
-        return view('registration.localrule');
-    }
-    public function registrationform()
-    {
-        return view('registration.registrationform');
-    }
-
-    public function viewRegistrationRequest()
-    {
-
-        $csos = CSO::has('registration')->get();
-
-        return view('registration.index', compact('csos'));
-    }
-
     public function evaluateRegistration($id)
     {
         $task = Task::findOrFail($id);
@@ -50,6 +27,7 @@ class RegistrationController extends Controller
             $cso->status = 'pending';
             $cso->save();
         }
+
         $address = $cso->address;
         $registration = $cso->registration;
 
@@ -95,6 +73,29 @@ class RegistrationController extends Controller
 
         return redirect()->back()->with('success', 'approve successfully!');
     }
+    //
+    public function foreignRule()
+    {
+        return view('registration.foreignrule');
+    }
+
+    public function localRule()
+    {
+        return view('registration.localrule');
+    }
+    public function registrationform()
+    {
+        return view('registration.registrationform');
+    }
+
+    public function viewRegistrationRequest()
+    {
+
+        $csos = CSO::has('registration')->get();
+
+        return view('registration.index', compact('csos'));
+    }
+
 
     public function giveRegistrationFedBack(Request $request, $id)
     {

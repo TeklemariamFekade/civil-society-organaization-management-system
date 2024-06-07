@@ -9,6 +9,11 @@
                         {{ session('success') }}
                     </div>
                 @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <form action="{{ route('service.fillAddressChangeForm') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <fieldset class="border">
@@ -92,8 +97,8 @@
                             <div class="form-group m-1 row">
                                 <label for="district" class="col-sm-4 col-form-label mt-2">District:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="district" name="district" class="form-control font-italic"
-                                        placeholder="Enter district" required>
+                                    <input type="text" id="district" name="district"
+                                        class="form-control font-italic" placeholder="Enter district" required>
                                 </div>
                             </div>
 

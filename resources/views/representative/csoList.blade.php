@@ -1,83 +1,70 @@
-<!-- Include Bootstrap CSS -->
-
 @extends('representative.layouts.app')
 
 @section('content')
-    <div class="content-wrapper">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        <div class="input-group">
-                            <input type="text" id="searchEnglishName" class="form-control" placeholder="Search English Name">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    All
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                                    <a class="dropdown-item" href="#" data-status="all">All</a>
-                                    <a class="dropdown-item" href="#" data-status="registered">Registered</a>
-                                    <a class="dropdown-item" href="#" data-status="inprogress">In Progress</a>
+    <div class="content-wrapper bg-white">
+        <div class="container my-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">CSO List</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" id="searchEnglishName" class="form-control"
+                                    placeholder="Search English Name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-danger bg-danger" type="button" onclick="clearEnglishSearch()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </th>
-
-                    <th>
-                        <div class="input-group">
-                            <input type="text" id="searchAmharicName" class="form-control"
-                                placeholder="ስሞችን በአማርኛ ፈልግ ...">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    ሁሉንም
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                                    <a class="dropdown-item" href="#" data-status="all">ሁሉንም</a>
-                                    <a class="dropdown-item" href="#" data-status="registered">የተመዘገቡትን</a>
-                                    <a class="dropdown-item" href="#" data-status="inprogress">በመመዝገብ ሂደት ላይ ያሉ </a>
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" id="searchAmharicName" class="form-control"
+                                    placeholder="ስሞችን በአማርኛ ፈልግ ...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-danger bg-danger" type="button" onclick="clearAmharicSearch()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </th>
-                </tr>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">CSO English Name</th>
-                    <th scope="col">Amharic Name</th>
-                    <th scope="col">catagory</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $count = 0;
-                    $users = App\Models\User::all();
-                    $csos = App\Models\CSO::all();
-                @endphp
-                @foreach ($csos as $cso)
-                    <tr>
-                        <td>{{ ++$count }}</td>
-                        <td>{{ $cso->english_name }}</td>
-                        <td>{{ $cso->amharic_name }}</td>
-                        <td>{{ $cso->category }}</td>
-                        <td>{{ $cso->status }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">CSO English Name</th>
+                                    <th scope="col">Amharic Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $count = 0;
+                                    $csos = App\Models\CSO::all();
+                                @endphp
+                                @foreach ($csos as $cso)
+                                    <tr>
+                                        <td>{{ ++$count }}</td>
+                                        <td>{{ $cso->english_name }}</td>
+                                        <td>{{ $cso->amharic_name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -103,7 +90,18 @@
                 }
             }
         }
+
+        function clearEnglishSearch() {
+            document.getElementById('searchEnglishName').value = '';
+            filterTable();
+        }
+
+        function clearAmharicSearch() {
+            document.getElementById('searchAmharicName').value = '';
+            filterTable();
+        }
     </script>
+
     <!-- Include jQuery library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

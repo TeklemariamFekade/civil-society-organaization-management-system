@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\CSO;
+use App\Models\Namechange;
+use App\Models\AddressChange;
+use App\Models\Service;
 
 class SupervisorController extends Controller
 {
@@ -15,6 +19,12 @@ class SupervisorController extends Controller
 
     public function showDashboard()
     {
+        // $totalRequest = CSO::where('status', 'apply')->count();
+        // $serviceRequest = Service::where('status', 'apply')->count();
+        // $addressChangeRequest = AddressChange::where('status', 'apply')->count();
+        // $nameChangeRequest = Namechange::where('status', 'apply')->count();
+        //, compact('totalRequest')
+
         return view('supervisor.dashboard');
     }
 

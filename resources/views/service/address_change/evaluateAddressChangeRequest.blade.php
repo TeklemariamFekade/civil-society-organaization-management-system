@@ -41,7 +41,6 @@
                                     </div>
 
                                     <div class="tab-content">
-
                                         <div id="Summery" class="tab-pane fade in active">
                                             <div class="table-responsive panel">
                                                 <table class="table">

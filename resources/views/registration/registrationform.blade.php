@@ -13,8 +13,8 @@
                         {{ session('success') }}
                     </div>
                 @endif
-                @if (session('error'))
-                    <div class="alert alert-error">
+                @if (session()->has('error'))
+                    <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
                 @endif

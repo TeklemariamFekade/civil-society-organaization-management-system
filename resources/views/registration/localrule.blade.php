@@ -4,19 +4,16 @@
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row mb-2 bg-white">
                     <h3 class="b border-bottom m-3 pl-3"><strong> Registration of Civil Society Organization For
                             Local</strong></h3>
                     <div>
                         <p class="text-justfy m-2 pl-5">Registration of Local Civil Society Organization by Authority for
                             Civil Society Organizations</p>
-
                     </div>
-
                     <div class="col-sm-11 ml-1">
                         <div class="bg-white  m-3  pb-5  text-justify">
-                            <hr class="border-4 ">
-                            <p class="border-top p-2 fw-bold"> <strong> Service Description </strong></p>
+                            <h5 class="border-top p-2 fw-bold"> <strong> Service Description </strong></h5>
                             <p class="p-3 ">
                                 Authority for Civil Society Organizations provides the service of registration of local
                                 civil society organization which is formed under the laws of Ethiopia by Ethiopians,

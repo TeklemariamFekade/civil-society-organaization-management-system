@@ -212,7 +212,7 @@
                 </script>
             @endif
 
-            <button class="btn mt-3">Login</button>
+            <button class="btn mt-3" type="submit">Login</button>
         </form>
         <div class="text-center fs-6 mt-2">
             <a href="#">Forget password?</a>

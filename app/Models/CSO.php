@@ -10,19 +10,7 @@ class CSO extends Model
     use HasFactory;
     protected $table = 'csos';
 
-    protected $fillable = [
-        'english_name',
-        'amharic_name',
-        'date_of_established',
-        'type',
-        'category',
-        'current_status',
-        'approvalNumber',
-        'cso_file',
-        'status',
-        'sector_id',
-        'representative_id',
-    ];
+    protected $fillable = ['english_name', 'amharic_name', 'date_of_established', 'type', 'category', 'current_status', 'approvalNumber', 'cso_file', 'status', 'sector_id', 'representative_id',];
 
     public function sector()
     {
