@@ -26,6 +26,7 @@
                         <p> Dashboard</p>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a href="{{ Route('registration.index.viewRegistrationRequest') }}"
                         class="nav-link {{ Request::is('registration/index') ? 'active' : '' }}">
@@ -59,19 +60,29 @@
                         </li>
                     </ul>
                 </li>
+
+                @php
+                    $unseenCount = auth()->user()->notifications()->where('status', 0)->count();
+                @endphp
+
                 <li class="nav-item">
                     <a href="{{ route('notification.viewSupervisorNotification') }}"
                         class="nav-link {{ Request::is('notifications/supervisorNotification') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell"></i>
-                        <p>Notification</p>
+                        <p>
+                            Notification
+                            @if ($unseenCount > 0)
+                                <span class="badge badge-danger">{{ $unseenCount }}</span>
+                            @endif
+                        </p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="" class="nav-link {{ Request::is('') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clipboard"></i>
                         <p>Reports</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a href="{{ Route('supervisor.profile') }}"
                         class="nav-link {{ Request::is('supervisor/profile') ? 'active' : '' }}">

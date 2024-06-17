@@ -26,15 +26,19 @@
                             <p class="card-text">{{ $notification->notification_detail }}</p>
                             <p class="card-text"><small class="text-muted">Sent on: {{ $notification->send_date }}</small>
                             </p>
-                            <a href="#" class="btn btn-primary btn-sm">
-                                <i class="fa fa-reply"></i> Reply
-                            </a>
+
+                            <!-- Reply Form -->
+                            {{-- <form action="{{ route('notification.replyDataEncoderNotification', $notification->id) }}"
+                                method="POST">
+                                @csrf --}}
+                            <div class="form-group mt-3">
+                                <label for="replyMessage">Reply Message</label>
+                                <textarea class="form-control" id="replyMessage" name="replyMessage" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary"> <i class="fa fa-reply"></i>Reply</button>
+                            </form>
                         </div>
                         <div class="card-footer d-flex justify-content-end">
-                            {{-- <a href="{{ route('notification.deleteSupervisorNotification', $notification->id) }}"
-                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete">
-                                <i class="fa fa-trash"></i>
-                            </a> --}}
                             <form action="{{ route('notification.deleteDataEncoderNotification', $notification->id) }}"
                                 method="POST" style="display: inline-block;">
                                 @csrf

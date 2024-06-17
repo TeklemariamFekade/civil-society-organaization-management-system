@@ -19,9 +19,8 @@ return new class extends Migration
             $table->string('approvalNumber')->nullable();
             $table->string('cso_file');
             $table->string('status')->default('apply');
-            $table->unsignedBigInteger('sector_id');
-            $table->unsignedBigInteger('representative_id');
-            $table->timestamps();
+            $table->unsignedBigInteger('sector_id')->nullable();
+            $table->unsignedBigInteger('representative_id')->nullable();
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('set null');
             $table->foreign('representative_id')->references('id')->on('representatives')->onDelete('set null');
         });

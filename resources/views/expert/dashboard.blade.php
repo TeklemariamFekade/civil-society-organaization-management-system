@@ -24,9 +24,9 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                <h3>150</h3>
+                                <h3>{{ $totalTask }}</h3>
 
-                                <p>All Users</p>
+                                <p>All Task</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
@@ -40,9 +40,9 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                <h3>{{ $notStartTask }}</h3>
 
-                                <p>Bounce Rate</p>
+                                <p>Not Started Task</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
@@ -56,9 +56,9 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3>{{ $onprogressTask }}</h3>
 
-                                <p>User Registrations</p>
+                                <p>Progress Task</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-person-add"></i>
@@ -72,9 +72,9 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65</h3>
+                                <h3>{{ $completeTask }}</h3>
 
-                                <p>Unique Visitors</p>
+                                <p>Completed Task</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
@@ -85,18 +85,36 @@
                     </div>
                     <!-- ./col -->
                 </div>
-                <!-- /.row -->
-                <!-- Main row -->
 
-                <!--/.direct-chat -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                <!-- TO DO List -->
+                <div>
+                    <canvas id="taskChart"></canvas>
+                </div>
 
-                <!-- /.card -->
+                <script>
+                    var ctx = document.getElementById('taskChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar', // Choose the type of chart (bar, line, pie, etc.)
+                        data: {
+                            labels: @json($data['labels']),
+                            datasets: [{
+                                label: 'task',
+                                data: @json($data['datasets'][0]['data']),
+                                backgroundColor: ['(75, 192, 192, 0.2)'],
+                                borderColor: ['rgba(75, 192, 192, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
         </section>
-        <!-- /.Left col -->
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-
-        <!-- right col -->
     </div>
 @endsection

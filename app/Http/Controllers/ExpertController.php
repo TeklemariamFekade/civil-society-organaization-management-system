@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Task;
 
 class ExpertController extends Controller
 {
@@ -14,7 +15,22 @@ class ExpertController extends Controller
     }
     public function showDashboard()
     {
-        return view('expert.dashboard');
+
+        $completeTask = Task::where('status', 'completed')->whereNotNull('registration_id')->count();
+        $onprogressTask = Task::where('status', 'on Progress')->whereNotNull('registration_id')->count();
+        $notStartTask = Task::where('status', 'not Start')->whereNotNull('registration_id')->count();
+        $totalTask = Task::where('status', '')->count();
+        $totalTask = $completeTask + $onprogressTask + $notStartTask;
+        $data = [
+            'labels' => ['complete task', 'progress task', 'not start task'],
+            'datasets' => [
+                [
+                    'label' => 'Task',
+                    'data' => [$completeTask, $onprogressTask, $notStartTask, $totalTask],
+                ],
+            ],
+        ];
+        return view('expert.dashboard', compact('notStartTask', 'totalTask', 'onprogressTask', 'completeTask', 'data'));
     }
     public function  viewProfile()
     {

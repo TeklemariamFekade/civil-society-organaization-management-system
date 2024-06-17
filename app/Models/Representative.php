@@ -22,11 +22,11 @@ class Representative extends Model implements Authenticatable
     {
         return 'id';
     }
+
     public function cso()
     {
-        return $this->belongsTo(CSO::class);
+        return $this->belongsTo(CSO::class); // 'belongsTo' for one-to-one (inverse side)
     }
-
 
     public function getAuthIdentifier()
     {

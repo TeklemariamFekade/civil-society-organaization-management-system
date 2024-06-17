@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->date('send_date');
             $table->string('cso_file');
-            $table->unsignedBigInteger('cso_id');
-            $table->unsignedBigInteger('service_id');
-            $table->timestamps();
-            $table->foreign('cso_id')->references('id')->on('csos')->onDelete('cascade');
+            $table->unsignedBigInteger('cso_id')->nullable();
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->foreign('cso_id')->references('id')->on('csos')->onDelete('set null');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
+            $table->timestamps();
         });
         //thjmsfjckem,d
     }

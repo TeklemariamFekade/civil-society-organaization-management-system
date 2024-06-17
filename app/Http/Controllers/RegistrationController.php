@@ -42,7 +42,6 @@ class RegistrationController extends Controller
         $cso->status  = 'approved';
         $cso->approvalNumber = CSO::generateApprovalNumber();
         $cso->save();
-
         $notification = new Notification();
         $notification->send_date = Carbon::now();
         $notification->sender =  Auth::user()->name . ', ' . ' ACSO Expert';
@@ -51,8 +50,6 @@ class RegistrationController extends Controller
         // Store the supervisor user IDs as a comma-separated string
         $notification->cso_id = $cso->id;
         $notification->save();
-
-
 
         $supervisorUsers = User::where('role', 'supervisor')->get();
         $notification = new Notification();
@@ -63,11 +60,24 @@ class RegistrationController extends Controller
         // Store the supervisor user IDs as a comma-separated string
         $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
         $notification->save();
-        $task = Task::find($id);
-        if ($task) {
-            $task->status = 'completed';
-            $task->save();
+
+        $registration = Registration::where('cso_id', $id)->first();
+
+        // If a registration record is found
+        if ($registration) {
+            // Find the task record with the corresponding registration_id
+            $task = Task::where('registration_id', $registration->id)
+                ->where('status', 'on Progress')
+                ->first();
+
+            // If a task record is found
+            if ($task) {
+                // Update the status of the task
+                $task->status = 'completed';
+                $task->save();
+            }
         }
+
 
 
 

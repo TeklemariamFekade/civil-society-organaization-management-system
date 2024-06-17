@@ -1,0 +1,1 @@
+@extends('dataencoder.layouts.app')

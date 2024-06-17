@@ -9,6 +9,7 @@ use App\Models\CSO;
 use App\Models\Namechange;
 use App\Models\AddressChange;
 use App\Models\Service;
+use App\Models\Support_Letter;
 
 class SupervisorController extends Controller
 {
@@ -19,13 +20,22 @@ class SupervisorController extends Controller
 
     public function showDashboard()
     {
-        // $totalRequest = CSO::where('status', 'apply')->count();
-        // $serviceRequest = Service::where('status', 'apply')->count();
-        // $addressChangeRequest = AddressChange::where('status', 'apply')->count();
-        // $nameChangeRequest = Namechange::where('status', 'apply')->count();
-        //, compact('totalRequest')
+        $csoRequest = CSO::where('status', 'apply')->count();
+        $letterRequest = Support_letter::where('status', 0)->count();
+        $addressChangeRequest = AddressChange::where('status', 0)->count();
+        $nameChangeRequest = NameChange::where('status', 0)->count();
+        $totalRequest = $csoRequest +  $letterRequest +  $addressChangeRequest + $nameChangeRequest;
+        $data = [
+            'labels' => ['registration Requests', 'Support Letter Requests', 'Address Change Requests', 'Name Change Request'],
+            'datasets' => [
+                [
+                    'label' => 'Requests',
+                    'data' => [$csoRequest, $letterRequest, $addressChangeRequest, $nameChangeRequest],
+                ],
+            ],
+        ];
 
-        return view('supervisor.dashboard');
+        return view('supervisor.dashboard', compact('totalRequest', 'letterRequest', 'csoRequest', 'addressChangeRequest', 'data'));
     }
 
     public function viewProfile()

@@ -31,18 +31,20 @@
                         <p>Task</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link {{ Request::is('report') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-chart-bar"></i>
-                        <p>Report</p>
-                    </a>
-                </li>
+                @php
+                    $unseenCount = auth()->user()->notifications()->where('status', 0)->count();
+                @endphp
 
                 <li class="nav-item">
                     <a href="{{ route('notification.viewExpertNotification') }}"
                         class="nav-link {{ Request::is('notifications/expertNotification') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell"></i>
-                        <p>Notification</p>
+                        <p>
+                            Notification
+                            @if ($unseenCount > 0)
+                                <span class="badge badge-danger">{{ $unseenCount }}</span>
+                            @endif
+                        </p>
                     </a>
                 </li>
 

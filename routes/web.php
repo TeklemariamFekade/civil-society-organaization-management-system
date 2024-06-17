@@ -47,6 +47,8 @@ Route::middleware(['auth:representative'])->group(function () {
     Route::get('/representative/csoList', [RepresentativeController::class, 'cso'])->name('representative.csoList');
 });
 
+Route::get('/dataencoder/cso', [CsoController::class, 'cso'])->name('dataencoder.cso');
+
 // Role-based dashboard redirection
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -87,10 +89,17 @@ Route::middleware(['auth', 'role:dataencoder'])->group(function () {
     Route::post('/dataencoder/Sector', [SectorController::class, 'addSector'])->name('dataencoder.Sector.addSector');
     Route::get('/dataencoder/Sector/index', [SectorController::class, 'viewSector'])->name('dataencoder.Sector.index');
     Route::post('/dataencoder/Sector/index', [SectorController::class, 'updateSector'])->name('dataencoder.Sector.updateSector');
-    Route::get('/dataencoder/report/index', [ReportController::class, 'index'])->name('dataencoder.report.index');
+    Route::get('/Report/dataEncoder/index', [ReportController::class, 'index'])->name('Report.dataEncoder.index');
 });
 
 
+Route::get('/Report/dataEncoder/sectorReport', [ReportController::class, 'generateReportBySector'])->name('Report.dataEncoder.sectorReport');
+Route::get('/Report/dataEncoder/csoReport', [ReportController::class, 'generateReportByCategory'])->name('Report.dataEncoder.csoReport');
+
+Route::get('/Report/dataEncoder/taskReport', [ReportController::class, 'generateTaskReport'])->name('Report.dataEncoder.taskReport');
+Route::get('Report/dataEncoder/csoReport/download', [ReportController::class, 'downloadReport'])->name('Report.dataEncoder.csoReport.download');
+
+Route::get('Report/dataEncoder/taskReport/download', [ReportController::class, 'downloadReport'])->name('Report.dataEncoder.taskReport.download');
 
 // Task routes
 Route::get('Task/dataEncoder/addressChangeIndex', [TaskController::class, 'viewAddressChangeTask'])->name('Task.dataEncoder.viewAddressChangeTask');
@@ -100,6 +109,12 @@ Route::get('Task/expert/index', [TaskController::class, 'viewExpertTask'])->name
 Route::post('Task/index', [TaskController::class, 'updateStatus'])->name('Task.updateStatus');
 Route::post('registration/index/{id}/', [TaskController::class, 'assignRegistrationTask'])->name('registration.assignRegistrationTask');
 
+
+
+Route::get('Task/dataEncoder/letterIndex/{id}/', [ServiceController::class, 'evaluateSupportLetterRequest'])->name('service.letter.evaluateSupportLetterRequest');
+Route::get('Task/dataEncoder/nameChangeIndex/{id}/', [ServiceController::class, 'evaluateNameChangeRequest'])->name('service.name_change.evaluateNameChangeRequest');
+Route::get('Task/dataEncoder/addressChangeIndex/{id}/', [ServiceController::class, 'evaluateAddressChangeRequest'])->name('service.address_change.evaluateAddressChangeRequest');
+
 // Service routes
 Route::get('service/index', [ServiceController::class, 'viewService'])->name('service.index');
 Route::get('service/nameChange', [ServiceController::class, 'nameChangeRule'])->name('service.nameChangeRule');
@@ -107,24 +122,31 @@ Route::get('service/nameChangeForm', [ServiceController::class, 'viewNameChangeF
 Route::post('service/nameChangeForm', [ServiceController::class, 'fillNameChangeForm'])->name('service.fillNameChangeForm');
 Route::get('service/name_change/nameChangeRequests', [ServiceController::class, 'viewNameChangeRequest'])->name('service.name_change.viewNameChangeRequest');
 Route::post('service/name_change/nameChangeRequests/{id}/', [TaskController::class, 'assignNameChangeTask'])->name('service.name_change.assignNameChangeTask');
+
+
+
+
 Route::get('service/addressChange', [ServiceController::class, 'addressChangeRule'])->name('service.addressChangeRule');
 Route::get('service/addressChangeForm', [ServiceController::class, 'addressChangeForm'])->name('service.addressChangeForm');
 Route::post('service/addressChangeForm', [ServiceController::class, 'fillAddressChangeForm'])->name('service.fillAddressChangeForm');
 Route::get('service/address_change/addressChangeRequests', [ServiceController::class, 'viewAddressChangeRequest'])->name('service.address_change.viewAddressChangeRequest');
 Route::post('service/address_change/addressChangeRequests/{id}/', [TaskController::class, 'assignAddressChangeTask'])->name('service.address_change.assignAddressChangeTask');
 Route::get('service/logo_letter', [ServiceController::class, 'support_letter_logo_rule'])->name('service.support_letter_logo_rule');
+
+
+
 Route::get('service/logo_letter_form', [ServiceController::class, 'support_letter_logo_form'])->name('service.support_letter_logo_form');
 Route::post('service/logo_letter_form', [ServiceController::class, 'fill_support_letter_logo_form'])->name('service.fill_support_letter_logo_form');
 Route::get('service/letter/letterRequests', [ServiceController::class, 'viewLetterRequest'])->name('service.letter.viewLetterRequest');
 Route::post('service/letter/letterRequests/{id}/', [TaskController::class, 'assignSupportLetterTask'])->name('service.letter.assignSupportLetterTask');
+
+
+
 Route::get('service/meeting_letter', [ServiceController::class, 'support_letter_meeting_rule'])->name('service.support_letter_meeting_rule');
 Route::get('service/meeting_letter_form', [ServiceController::class, 'support_letter_meeting_form'])->name('service.support_letter_meeting_form');
 Route::post('service/meeting_letter_form', [ServiceController::class, 'fill_support_letter_meeting_form'])->name('service.fill_support_letter_meeting_form');
-Route::get('Task/dataEncoder/letterIndex/{id}/', [ServiceController::class, 'evaluateSupportLetterRequest'])->name('service.letter.evaluateSupportLetterRequest');
-Route::get('Task/dataEncoder/nameChangeIndex/{id}/', [ServiceController::class, 'evaluateNameChangeRequest'])->name('service.name_change.evaluateNameChangeRequest');
-Route::get('Task/dataEncoder/addressChangeIndex/{id}/', [ServiceController::class, 'evaluateAddressChangeRequest'])->name('service.address_change.evaluateAddressChangeRequest');
-Route::post('service/address_change/evaluateAddressChangeRequest/{id}/', [ServiceController::class, 'approveAddressChange'])->name('service.address_change.approveAddressChange');
 
+Route::post('service/address_change/evaluateAddressChangeRequest/{id}/', [ServiceController::class, 'approveAddressChange'])->name('service.address_change.approveAddressChange');
 Route::post('service/name_change/evaluateNameChangeRequest/{id}/', [ServiceController::class, 'approveNameChange'])->name('service.name_change.approveNameChange');
 Route::post('service/address_change/evaluateAddressChangeRequest/{id}/', [ServiceController::class, 'giveAddressChangeFedBack'])->name('service.address_change.giveAddressChangeFedBack');
 Route::post('service/name_change/evaluateNameChangeRequests/{id}/', [ServiceController::class, 'giveNameChangeFedBack'])->name('service.name_change.giveNameChangeFedBack');
@@ -137,6 +159,8 @@ Route::get('notifications/expertNotification', [NotificationController::class, '
 Route::get('notifications/supervisorNotification', [NotificationController::class, 'viewSupervisorNotification'])->name('notification.viewSupervisorNotification');
 Route::get('notifications/representativeNotification', [NotificationController::class, 'viewRepresentativeNotification'])->name('notification.viewRepresentativeNotification');
 Route::get('notifications/notificationDetail/{id}/', [NotificationController::class, 'notificationDetail'])->name('notification.notificationDetail');
+
+
 Route::get('notifications/dataEncoderDetailNotification/{id}/', [NotificationController::class, 'dataEncoderNotificationDetail'])->name('notification.dataEncoderNotificationDetail');
 Route::get('notifications/expertDetailNotification/{id}/', [NotificationController::class, 'expertNotificationDetail'])->name('notification.expertNotificationDetail');
 Route::get('notifications/supervisorNotificationDetail/{id}/', [NotificationController::class, 'supervisorNotificationDetail'])->name('notification.supervisorNotificationDetail');
@@ -153,5 +177,5 @@ Route::post('registration/registrationform', [CSOController::class, 'request'])-
 Route::get('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'evaluateRegistration'])->name('registration.evaluateRegistration');
 Route::get('registration/index', [RegistrationController::class, 'viewRegistrationRequest'])->name('registration.index.viewRegistrationRequest');
 
-Route::post('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'approveRegistration'])->name('registration.approveRegistration');
+Route::post('registration/approveRegistration/{id}/', [RegistrationController::class, 'approveRegistration'])->name('registration.approveRegistration');
 Route::post('registration/evaluateRegistration/{id}/', [RegistrationController::class, 'giveRegistrationFedBack'])->name('registration.giveRegistrationFedBack');

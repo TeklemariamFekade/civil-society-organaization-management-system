@@ -106,6 +106,12 @@ class CSOController extends Controller
     }
 
 
+    public function cso()
+    {
+        return view('dataencoder.cso');
+    }
+
+
     // {
     //     // Logic for showing data
     // }

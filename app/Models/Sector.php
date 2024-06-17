@@ -16,6 +16,6 @@ class Sector extends Model
 
     public function csos()
     {
-        return $this->hasMany(CSO::class);
+        return $this->hasOne(CSO::class);
     }
 }

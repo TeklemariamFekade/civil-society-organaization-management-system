@@ -141,7 +141,7 @@
                                             <div class="table-responsive panel">
                                                 <table class="table">
                                                     <tbody>
-                                                        @foreach ($cso->addresschanges as $change)
+                                                        @foreach ($cso->addresschange as $change)
                                                             <tr>
                                                                 <td class="text-success"><i class="fa fa-building"></i>
                                                                     Place of

@@ -1,6 +1,8 @@
 @extends('supervisor.layouts.app')
 
 @section('content')
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
@@ -24,8 +26,7 @@
                         <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
-                                {{-- <h3>{{ $totalRequest }}</h3> --}}
-
+                                <h3>{{ $totalRequest }}</h3>
                                 <p>All Requests</p>
                             </div>
                             <div class="icon">
@@ -40,9 +41,9 @@
                         <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
-                                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                <h3>{{ $letterRequest }}</h3>
 
-                                <p>Service Requests</p>
+                                <p>Letter Requests</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-stats-bars"></i>
@@ -56,7 +57,7 @@
                         <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3>44</h3>
+                                <h3>{{ $csoRequest }}</h3>
                                 <p>Registration Requests</p>
                             </div>
                             <div class="icon">
@@ -71,9 +72,9 @@
                         <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
-                                <h3>65</h3>
+                                <h3>{{ $addressChangeRequest }}</h3>
 
-                                <p>Unassigned Tasks</p>
+                                <p>Address Change Request</p>
                             </div>
                             <div class="icon">
                                 <i class="ion ion-pie-graph"></i>
@@ -84,14 +85,37 @@
                     </div>
                     <!-- ./col -->
                 </div>
-                <!-- /.row -->
-                <!-- Main row -->
 
-                <!--/.direct-chat -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                <!-- TO DO List -->
+                <div>
+                    <canvas id="requestsChart"></canvas>
+                </div>
 
-                <!-- /.card -->
+                <script>
+                    var ctx = document.getElementById('requestsChart').getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'bar', // Choose the type of chart (bar, line, pie, etc.)
+                        data: {
+                            labels: @json($data['labels']),
+                            datasets: [{
+                                label: 'Requests',
+                                data: @json($data['datasets'][0]['data']),
+                                backgroundColor: ['(75, 192, 192, 0.2)'],
+                                borderColor: ['rgba(75, 192, 192, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+
         </section>
         <!-- /.Left col -->
         <!-- right col (We are only adding the ID to make the widgets sortable)-->

@@ -24,4 +24,9 @@ class Task extends Model
     {
         return $this->hasMany(Notification::class);
     }
+
+    public function namechange()
+    {
+        return $this->hasOne(NameChange::class);
+    }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
             $table->date('send_date');
-            $table->integer('cso_id');
+            $table->unsignedBigInteger('cso_id');
             $table->foreign('cso_id')->references('id')->on('csos')->cascadeOnDelete();
             $table->timestamps();
         });

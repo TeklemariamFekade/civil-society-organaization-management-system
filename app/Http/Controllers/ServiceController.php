@@ -119,20 +119,39 @@ class ServiceController extends Controller
     }
     public function evaluateAddressChangeRequest($id)
     {
+        // Find the task by ID
         $task = Task::findOrFail($id);
+
+        // Find the associated address change record
+        $addressChange = AddressChange::where('id', $task->address_change_id)->first();
+
+        // If the address change record is not found, return a 404 error
+        if (!$addressChange) {
+            abort(404, 'Address change record not found');
+        }
+
+        // Find the associated CSO record
+        $cso = CSO::where('id', $addressChange->cso_id)->first();
+
+        // If the CSO record is not found, return a 404 error
+        if (!$cso) {
+            abort(404, 'CSO record not found');
+        }
+
+        // Retrieve the related address record
+        $address = $cso->address;
+
+        // Retrieve the related address change records
+        $addressChanges = $cso->addressChanges; // Assuming a CSO can have multiple address changes
+
+        // Update the task status if it is 'not start'
         if ($task->status === 'not start') {
             $task->status = 'On Progress';
             $task->save();
         }
-        // Find the associated address change record
-        $addresschanges = AddressChange::findOrFail($task->address_change_id);
-        $cso = CSO::findOrFail($addresschanges->cso_id);
-        // Find the associated CSO record
-        // Retrieve the related address and address change records
-        $address = $cso->address;
-        $addresschanges = $cso->addresschanges;
+
         // Return the view with the necessary data
-        return view('service.address_change.evaluateAddressChangeRequest', compact('cso', 'address', 'addresschanges'));
+        return view('service.address_change.evaluateAddressChangeRequest', compact('task', 'cso', 'address', 'addressChanges'));
     }
 
     public function approveAddressChange($id)
@@ -341,6 +360,23 @@ class ServiceController extends Controller
             // Store the supervisor user IDs as a comma-separated string
             $notification->user_id = implode(',', $supervisorUsers->pluck('id')->toArray());
             $notification->save();
+
+            $nameChange = nameChange::where('cso_id', $id)->first();
+
+            // If a nameChange record is found
+            if ($nameChange) {
+                // Find the task record with the corresponding registration_id
+                $task = Task::where('name_changes_id', $nameChange->id)
+                    ->where('status', 'on Progress')
+                    ->first();
+
+                // If a task record is found
+                if ($task) {
+                    // Update the status of the task
+                    $task->status = 'completed';
+                    $task->save();
+                }
+            }
             $task = Task::find($id);
             if ($task) {
                 $task->status = 'completed';
@@ -369,7 +405,6 @@ class ServiceController extends Controller
         // Store the supervisor user IDs as a comma-separated string
         $notification->cso_id = $cso->id;
         $notification->save();
-
         $supervisorUsers = User::where('role', 'supervisor')->get();
         $notification = new Notification();
         $notification->send_date = Carbon::now();

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Namechange extends Model
 {
     use HasFactory;
+    protected $table = 'namechanges';
     protected $fillable = [
 
         'new_english_name',
@@ -30,5 +31,10 @@ class Namechange extends Model
     public function service()
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
     }
 }

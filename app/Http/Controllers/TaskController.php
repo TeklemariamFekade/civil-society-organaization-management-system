@@ -23,20 +23,33 @@ class TaskController extends Controller
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
+        // Retrieve letter tasks assigned to the logged-in user and order them by status
         $tasks = Task::where('user_id', $loggedInUserId)
-            ->whereNotNull('support_letter_id')->get();
+            ->whereNotNull('support_letter_id')
+            ->orderByRaw("CASE
+                            WHEN status = 'not start' THEN 1
+                            WHEN status = 'on Progress' THEN 2
+                            WHEN status = 'completed' THEN 3
+                            ELSE 4
+                        END")
+            ->get();
 
         return view("Task.dataEncoder.letterIndex", compact("tasks"));
     }
-
     public function viewNameChangeTask()
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
+        // Retrieve name change tasks assigned to the logged-in user and order them by status
         $tasks = Task::where('user_id', $loggedInUserId)
-            ->whereNotNull('name_changes_id')->get();
+            ->whereNotNull('name_changes_id')
+            ->orderByRaw("CASE
+                            WHEN status = 'not start' THEN 1
+                            WHEN status = 'on progress' THEN 2
+                            WHEN status = 'completed' THEN 3
+                            ELSE 4
+                        END")
+            ->get();
 
         return view("Task.dataEncoder.nameChangeIndex", compact("tasks"));
     }
@@ -45,9 +58,15 @@ class TaskController extends Controller
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
+        // Retrieve address change tasks assigned to the logged-in user and order them by status
         $tasks = Task::where('user_id', $loggedInUserId)
             ->whereNotNull('address_changes_id')
+            ->orderByRaw("CASE
+                        WHEN status = 'not start' THEN 1
+                        WHEN status = 'on progress' THEN 2
+                        WHEN status = 'completed' THEN 3
+                        ELSE 4
+                    END")
             ->get();
 
         return view("Task.dataEncoder.addressChangeIndex", compact("tasks"));
@@ -58,8 +77,15 @@ class TaskController extends Controller
     {
         $loggedInUserId = Auth::id();
 
-        // Retrieve tasks assigned to the logged-in user
-        $tasks = Task::where('user_id', $loggedInUserId)->get();
+        // Retrieve tasks assigned to the logged-in user and order them by status
+        $tasks = Task::where('user_id', $loggedInUserId)
+            ->orderByRaw("CASE
+                            WHEN status = 'not start' THEN 1
+                            WHEN status = 'on Progress' THEN 2
+                            WHEN status = 'completed' THEN 3
+                            ELSE 4
+                        END")
+            ->get();
 
         return view("Task.expert.index", compact("tasks"));
     }

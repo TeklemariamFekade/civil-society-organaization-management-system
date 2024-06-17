@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('cso_file');
             $table->date('send_date');
             $table->unsignedBigInteger('cso_id');
-            $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('service_id')->nullable();
             $table->timestamps();
             $table->foreign('cso_id')->references('id')->on('csos')->onDelete('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');

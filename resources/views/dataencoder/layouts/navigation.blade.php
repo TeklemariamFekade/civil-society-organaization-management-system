@@ -25,8 +25,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ Route('admin.viewUser') }}" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                    <a href="{{ route('dataencoder.cso') }}"
+                        class="nav-link {{ Request::is('dataencoder/cso') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-clipboard"></i>
                         <p>All CSO</p>
                     </a>
                 </li>
@@ -64,16 +65,26 @@
                         </li>
                     </ul>
                 </li>
+
+                @php
+                    $unseenCount = auth()->user()->notifications()->where('status', 0)->count();
+                @endphp
                 <li class="nav-item">
                     <a href="{{ route('notification.viewDataEncoderNotification') }}"
                         class="nav-link {{ Request::is('notifications/dateEncoderNotification') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell"></i>
-                        <p>Notification</p>
+                        <p>
+                            Notification
+                            @if ($unseenCount > 0)
+                                <span class="badge badge-danger">{{ $unseenCount }}</span>
+                            @endif
+                        </p>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="{{ route('dataencoder.report.index') }}"
-                        class="nav-link {{ Request::is('dataencoder/report/index') ? 'active' : '' }}">
+                    <a href="{{ route('Report.dataEncoder.index') }}"
+                        class="nav-link {{ Request::is('Report/dataEncoder/index') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-clipboard"></i>
                         <p>Report</p>
                     </a>

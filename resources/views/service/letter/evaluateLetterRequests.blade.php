@@ -99,7 +99,7 @@
                                         <div class="card-body text-center">
                                             <button type="button" class="btn btn-success" data-toggle="modal"
                                                 data-target="#mdl-{{ $cso->id }}">
-                                                Give Feedback
+                                                Reply
                                             </button>
                                         </div>
                                     </div>

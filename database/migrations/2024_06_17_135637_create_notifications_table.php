@@ -22,18 +22,20 @@ return new class extends Migration
             $table->unsignedBigInteger('cso_id')->nullable();
             $table->unsignedBigInteger('name_changes_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('representative_id')->nullable();
             $table->unsignedBigInteger('registration_id')->nullable();
             $table->unsignedBigInteger('address_changes_id')->nullable();
             $table->unsignedBigInteger('support_letter_id')->nullable();
-            $table->timestamps();
 
             $table->foreign('cso_id')->references('id')->on('csos')->onDelete('set null');
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('set null');
             $table->foreign('name_changes_id')->references('id')->on('namechanges')->onDelete('set null');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('representative_id')->references('id')->on('representatives')->onDelete('set null');
             $table->foreign('registration_id')->references('id')->on('registrations')->onDelete('set null');
-            $table->foreign('address_changes_id')->references('id')->on('addresschanges')->onDelete('set null');
+            $table->foreign('address_changes_id')->references('id')->on('address_changes')->onDelete('set null');
             $table->foreign('support_letter_id')->references('id')->on('support_letters')->onDelete('set null');
+            $table->timestamps();
         });
     }
 
